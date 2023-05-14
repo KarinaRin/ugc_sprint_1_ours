@@ -11,6 +11,17 @@ from redis import Redis
 NUM_SYMBOLS_IN_EMAIL = 7
 
 
+class CustomRedis:
+    def __init__(self, host, port, db):
+        self.redis = Redis(host=host, port=port, db=db)
+
+    def _get_message(self, key):
+        return self.redis.get(key).decode()
+
+    def get_timestamp(self, key):
+        return self._get_message(key).split(',')[3]
+
+
 class CustomKafkaProducer:
     def __init__(self, address):
         self.producer = KafkaProducer(
@@ -56,16 +67,18 @@ def push(kafka_producer, redis):
 
         sleep(3)
 
-        message = redis.get(key)
+        # Забираем из редиса
+        message = redis._get_message(key)
+        return_timestamp = redis.get_timestamp(key)
 
         print(
-            f'redis: \n\t key:  {key} \n\t message: {message}'
+            f'redis: \n\t key:  {key} \n\t message: {message}, timestamp: {return_timestamp}'
         )
 
 
 if __name__ == '__main__':
     kafka_producer = CustomKafkaProducer(['localhost:9092'])
-    redis = Redis(host=f'127.0.0.1', port=6379, db=1)
+    redis = CustomRedis(host=f'127.0.0.1', port=6379, db=1)
 
     try:
         push(kafka_producer, redis)
