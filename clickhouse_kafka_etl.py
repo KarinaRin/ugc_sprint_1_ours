@@ -5,7 +5,7 @@ client = Client(host='localhost')
 create_kafka_engine = """
 CREATE TABLE IF NOT EXISTS readings_queue (
     email String,
-    uuid String,
+    film_id String,
     time DateTime,
     timestamp Int32
 )
@@ -20,7 +20,7 @@ client.execute(create_kafka_engine)
 
 create_materialized_view = """
     CREATE MATERIALIZED VIEW readings_queue_mv TO default.readings AS
-    SELECT email, uuid, time, timestamp
+    SELECT email, film_id, time, timestamp
     FROM readings_queue;
 """
 client.execute(create_materialized_view)
