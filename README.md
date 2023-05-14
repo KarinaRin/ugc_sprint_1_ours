@@ -56,4 +56,14 @@ SELECT 1
 https://forum.confluent.io/t/redis-sink-connector-records-missing/4675
 
 скачать =>>>> 
-https://www.confluent.io/hub/jcustenborder/kafka-connect-redis 
+https://www.confluent.io/hub/jcustenborder/kafka-connect-redis
+
+
+
+
+
+
+
+##################################################
+# Exception: Syntax error (Multi-statements are not allowed): failed at position 36 (end of query) (line 1, col 36): ;
+https://groups.google.com/g/clickhouse/c/GXHMTGXR0wg 

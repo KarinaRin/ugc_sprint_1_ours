@@ -27,24 +27,6 @@ services:
     depends_on:
       - zookeeper
 
-  clickhouse-node3:
-    image: yandex/clickhouse-server:20.4
-    container_name: clickhouse-node3
-    hostname: clickhouse-node3
-    volumes:
-      - ./data/node3:/etc/clickhouse-server
-    depends_on:
-      - zookeeper
-
-  clickhouse-node4:
-    image: yandex/clickhouse-server:20.4
-    container_name: clickhouse-node4
-    hostname: clickhouse-node4
-    volumes:
-      - ./data/node4:/etc/clickhouse-server
-    depends_on:
-      - zookeeper
-
   zookeeper_kafka:
     image: confluentinc/cp-zookeeper:6.0.1
     hostname: zookeeper_kafka

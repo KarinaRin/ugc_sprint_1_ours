@@ -1,3 +1,3 @@
-clickhouse-driver
-kafka-python
-redis
+clickhouse-driver==0.2.6
+kafka-python==2.0.2
+redis==4.5.5
