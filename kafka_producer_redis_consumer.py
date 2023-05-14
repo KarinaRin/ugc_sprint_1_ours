@@ -42,7 +42,7 @@ def push():
 
         #Отправляем данные в кафку
         producer.send(
-            'readings',
+            'user_film_timestamp',
             value=user_generated_content.encode(),
             key=key.encode()
         )
