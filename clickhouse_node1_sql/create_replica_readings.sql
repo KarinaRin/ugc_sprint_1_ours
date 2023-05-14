@@ -1,8 +1,9 @@
 CREATE TABLE IF NOT EXISTS replica.readings (
-    readings_id Int32 Codec(DoubleDelta, LZ4),
+    email String Codec(LZ4),
+    uuid String Codec(LZ4),
     time DateTime Codec(DoubleDelta, LZ4),
     date ALIAS toDate(time),
     timestamp Int32 Codec(DoubleDelta, LZ4)
 ) Engine = ReplicatedMergeTree('/clickhouse/tables/shard2/readings', 'replica_2')
 PARTITION BY toYYYYMM(time)
-ORDER BY (readings_id, time);
+ORDER BY (email, time);

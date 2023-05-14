@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS default.readings (
-    readings_id Int32 Codec(DoubleDelta, LZ4),
+    email String Codec(LZ4),
+    uuid String Codec(LZ4),
     time DateTime Codec(DoubleDelta, LZ4),
     date ALIAS toDate(time),
     timestamp Int32 Codec(DoubleDelta, LZ4)

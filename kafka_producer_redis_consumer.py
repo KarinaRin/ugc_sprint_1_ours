@@ -33,10 +33,11 @@ def push():
         email = ''.join(random.choices(
             string.ascii_uppercase, k=NUM_SYMBOLS_IN_EMAIL)
         ) + '@mail.com'
-        key = email + str(uuid.uuid4()) + ','
+        film_id = str(uuid.uuid4())
+        key = email + film_id + ','
 
         # Создаем пользовательские данные
-        user_generated_content = f'{id}, "{get_current_time()}", {timestamp}'
+        user_generated_content = f'{email}, {film_id}, "{get_current_time()}", {timestamp}'
 
 
         #Отправляем данные в кафку
