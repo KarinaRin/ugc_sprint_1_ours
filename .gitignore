@@ -3,22 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-static
-
-.idea
-.DS_Store
-.AppleDouble
-.LSOverride
-
-*.sublime-project
-*.sublime-workspace
-
-.vscode/
-*.code-workspace
-
 # C extensions
 *.so
-
+.idea
 # Distribution / packaging
 .Python
 build/
@@ -119,7 +106,6 @@ celerybeat.pid
 .venv
 env/
 venv/
-
 ENV/
 env.bak/
 venv.bak/
@@ -141,3 +127,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+.python-version
