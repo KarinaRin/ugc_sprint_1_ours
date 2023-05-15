@@ -1,15 +1,15 @@
 """Измерение скорости вставки данных в заполненное хранилище"""
 from random import randint, choice
 
-from initial.data_generator import INSERT_QUERY
-from testing.select import users_ids, movies_ids
-from testing.utility_code import time_execute
-
-CHUNKS = [10, 100, 500, 1000, 5000]
+from common import CHUNKS
+from select_test_clickhouse import users_ids, movies_ids
+from utility_click import time_execute
+from storage_research.clickhouse import INSERT_QUERY
 
 
 def insert_time_rate():
-    with open("insert.txt", "w") as file:
+    with open("insert_test.csv", "w") as file:
+        file.write('chunk,clickhouse_old,vertica')
         for chunk in CHUNKS:
             results = []
             for _ in range(10):  # 10 - число повторов для расчета средней
@@ -20,10 +20,9 @@ def insert_time_rate():
                 ) for _ in range(chunk)]
                 exec_time = time_execute(INSERT_QUERY, values)
                 results.append(exec_time)
-            avg = sum(results)/10
-            file.write(
-                f'Среднее время: {avg:0.4f}, Количество строк: {chunk}\n'
-            )
+            avg = sum(results) / 10
+
+            file.write(f'{chunk},{avg:0.4f},\n')
 
 
 if __name__ == "__main__":
