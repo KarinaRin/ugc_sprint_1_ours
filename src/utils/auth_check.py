@@ -1,47 +1,36 @@
 from functools import wraps
 from http import HTTPStatus
 
-from fastapi import HTTPException, Request
-from fastapi.security import HTTPAuthorizationCredentials
-from jose import jwt
+from fastapi import HTTPException
+from jose import jwt, ExpiredSignatureError
 
-from src.core.config import settings
+from ..core.config import settings
 
 
-def decorator(*args, request: Request, **kwargs):
-    token = request.headers.get('Authorization', None)
-    if not token:
+def check_permission(required_role: list):
+    def wrapper(func):
+        @wraps(func)
+        async def decorator(*args, **kwargs):
+            token = kwargs['request'].credentials
+            try:
+                decoded = jwt.decode(
+                    token, settings.token_secret_key, algorithms="HS256"
+                )
+            except ExpiredSignatureError as exp:
+                return exp
+            check_user_role(decoded['role'], required_role)
+            kwargs['request'] = decoded
+            response = await func(*args, **kwargs)
+            return response
+
+        return decorator
+
+    return wrapper
+
+
+def check_user_role(user_role, required_role):
+    if user_role not in required_role:
         raise HTTPException(
-            status_code=HTTPStatus.UNAUTHORIZED,
-            detail='Authorization token needed'
+            status_code=HTTPStatus.BAD_REQUEST,
+            detail='Access denied'
         )
-    token = token.replace('Bearer', '')
-
-
-def decode_jwt(jwt_token: str):
-    try:
-        decoded = jwt.decode(
-            jwt_token, settings.token_secret_key, algorithms="HS256"
-        )
-    except InvalidSignatureError:
-        return (
-            jsonify(msg="Signature verification failed"),
-            HTTPStatus.UNAUTHORIZED,
-        )
-
-    except ExpiredSignatureError:
-        return jsonify(msg="Signature has expired"), HTTPStatus.UNAUTHORIZED
-
-    if verify_type:
-        if refresh and decoded.get("type") == "access":
-            return (
-                jsonify(msg="Need refresh token, but got access token"),
-                HTTPStatus.UNAUTHORIZED,
-            )
-        if not refresh and decoded.get("type") == "refresh":
-            return (
-                jsonify(msg="Need access token, but got refresh token"),
-                HTTPStatus.UNAUTHORIZED,
-            )
-
-    return decoded
