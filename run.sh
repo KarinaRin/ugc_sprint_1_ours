@@ -1,6 +1,6 @@
 #!/bin/sh
 docker-compose down
-docker rm $(docker ps -aq )
+docker rm -f $(docker ps -aq )
 docker-compose up -d
 
 echo "init clickhouse_node1"
@@ -29,5 +29,5 @@ curl -X POST -H 'Content-Type: application/json' --data @connector.json http://l
 echo "init etl kafka - clickhouse"
 python clickhouse_kafka_etl.py
 
-echo "run script"
-python kafka_producer_redis_consumer.py
+#echo "run script"
+#python kafka_producer_redis_consumer.py

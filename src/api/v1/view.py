@@ -1,14 +1,17 @@
+import random
+import string
 import uuid
 from datetime import datetime
 from urllib.request import Request
 
 from fastapi import APIRouter, Depends
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
+from kafka import KafkaProducer
+from redis.client import Redis
+from src.db.kafka import get_kafka_producer
+from src.db.redis import get_redis
 
 router = APIRouter()
-
-bearer_token = HTTPBearer()
 
 
 class UserTimestamp(BaseModel):
@@ -16,53 +19,50 @@ class UserTimestamp(BaseModel):
     timestamp: datetime
 
 
-@router.post(
-    '',
-    summary='Сбор информации о просмотрах',
-    description='Сбор информации о просмотре фильма,'
-                'принимает id фильма и timestamp на котором завершился просмотр',
-    response_description='Статус код',
-)
-async def view(
-        user_content: UserTimestamp,
-        request: HTTPAuthorizationCredentials = Depends(bearer_token),
-):
-    token = request.credentials
-    '''
-    какие то действия с токеном и кафкой
-    '''
-    return user_content.dict()
+NUM_SYMBOLS_IN_EMAIL = 10
+
+def create_kafka_test_data():
+    # Итерируем timestamp просмотра
+    timestamp = 0
+    while True:
+        timestamp += 1
+        # Создаем случайный ключ (в конце запятая обязательна!)
+        email = ''.join(random.choices(
+            string.ascii_uppercase, k=NUM_SYMBOLS_IN_EMAIL)
+        ) + '@mail.com'
+        film_id = str(uuid.uuid4())
+        key = email + film_id + ','
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        user_generated_content = f'{email}, {film_id}, "{current_time}", {timestamp}'
+        yield user_generated_content, key
 
 
 @router.get(
-    '/{movie_id}',
+    '/{email_movie_id}',
     summary='Получение timestamp',
     description='На каком timestamp остановился пользователь, при просмотре фильма',
-    response_description='Временная метка',
+    response_description='Временная метка'
 )
 async def content(
-        movies_id: str,
-        request: HTTPAuthorizationCredentials = Depends(bearer_token),
+        email_movie_id: str,
+        redis: Redis = Depends(get_redis),
 ):
-    token = request.credentials
-    '''
-    какие то действия с токеном и кафкой
-    '''
-    return {'movie_id': movies_id}
+    timestamp = redis.get_timestamp(email_movie_id)
+    return {'timestamp': timestamp}
 
 
 @router.post(
-    '/movies',
+    '',
     summary='Получение timestamps для определенного количества фильмов',
     description='На каком timestamp остановился пользователь, при просмотре фильма',
     response_description='Временная метка для фильмов',
 )
 async def content(
         movies_id: str,
-        request: HTTPAuthorizationCredentials = Depends(bearer_token),
+        kafka_producer: KafkaProducer = Depends(get_kafka_producer),
+
 ):
-    token = request.credentials
-    '''
-    какие то действия с токеном и кафкой
-    '''
-    return {'movie_id': movies_id}
+    for user_generated_content, email_movie_id in create_kafka_test_data():
+    # Отправляем данные в кафку
+        kafka_producer.send('user_film_timestamp', user_generated_content, email_movie_id)
+        return {'email_movie_id': email_movie_id}
