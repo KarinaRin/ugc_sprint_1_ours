@@ -9,7 +9,7 @@ from storage_research.clickhouse import INSERT_QUERY
 
 def insert_time_rate():
     with open("insert_test.csv", "w") as file:
-        file.write('chunk,clickhouse_old,vertica')
+        file.write('chunk,clickhouse1,vertica\n')
         for chunk in CHUNKS:
             results = []
             for _ in range(10):  # 10 - число повторов для расчета средней

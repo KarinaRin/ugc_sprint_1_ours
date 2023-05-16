@@ -9,7 +9,7 @@ INIT_RECORDS_CHUNK = 10_000
 user_ids = [str(uuid4()) for _ in range(USERS_COUNT)]
 movie_ids = [str(uuid4()) for _ in range(MOVIES_COUNT)]
 
-CHUNKS = [10, 100, 200, 500, 700, 1000, 1500, 2000, 3000, 4000, 5000, 6000,
+CHUNKS = [100, 200, 500, 700, 1000, 1500, 2000, 3000, 4000, 5000, 6000,
           8000, 10000]
 
 
