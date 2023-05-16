@@ -13,6 +13,8 @@ class Settings(BaseSettings):
     redis_host: str = '127.0.0.1'
     redis_port: int = 6379
     token_secret_key: str = 'very_secret_key'
+    kafka_host: str = '127.0.0.1'
+    kafka_port: int = 9092
 
     class Config:
         env_file = '.env'
