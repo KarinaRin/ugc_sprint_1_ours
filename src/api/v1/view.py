@@ -17,7 +17,7 @@ bearer_token = HTTPBearer()
 
 class UserTimestamp(BaseModel):
     film_id: uuid.UUID
-    timestamp: datetime
+    timestamp: int
 
 
 @router.get(
@@ -50,6 +50,11 @@ async def view(
         kafka_producer: KafkaProducer = Depends(get_kafka_producer),
 ):
     key = get_email_film_id(request['email'], user_content.film_id)
-    user_generated_content = f"{key}, {user_content.film_id}, {get_current_datetime()}, {user_content.timestamp}"
+    user_generated_content = f"{request['email']}, {user_content.film_id}, {get_current_datetime()}, {user_content.timestamp}"
+    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', user_generated_content)
     kafka_producer.send('user_film_timestamp', user_generated_content, key)
-    return {'email_movie_id': key}
+    return {
+        'email': request['email'],
+        'film_id': user_content.film_id,
+        'user_timestamp': user_content.timestamp
+    }

@@ -1,6 +1,6 @@
 #!/bin/sh
-docker-compose down
-docker rm -f $(docker ps -aq )
+#docker-compose down
+#docker rm -f $(docker ps -aq )
 docker-compose up -d
 
 echo "init clickhouse_node1"
