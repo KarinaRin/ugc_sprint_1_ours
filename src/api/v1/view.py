@@ -33,9 +33,11 @@ async def content(
         redis: Redis = Depends(get_redis),
 ):
     email_film_id = get_email_film_id(request['email'], film_id)
-    timestamp = redis.get_timestamp(email_film_id)
-    return {'timestamp': timestamp}
-
+    try:
+        timestamp = redis.get_timestamp(email_film_id)
+        return {'timestamp': timestamp}
+    except Exception:
+        return {'error': 'No available data for user with film id'}
 
 @router.post(
     '',
