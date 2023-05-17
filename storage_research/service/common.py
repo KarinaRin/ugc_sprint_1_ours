@@ -10,7 +10,8 @@ user_ids = [str(uuid4()) for _ in range(USERS_COUNT)]
 movie_ids = [str(uuid4()) for _ in range(MOVIES_COUNT)]
 
 CHUNKS = [100, 200, 500, 700, 1000, 1500, 2000, 3000, 4000, 5000, 6000,
-          8000, 10000]
+          8000, 10_000, 100_000, 200_000, 500_000, 1_000_000]
+REPEAT_COUNT = 10
 
 
 def gen_views(num: int) -> (
