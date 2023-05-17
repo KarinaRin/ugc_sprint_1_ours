@@ -1,8 +1,7 @@
 from clickhouse_driver import Client
-from clickhouse_driver.errors import Error
 from tqdm import tqdm
 
-from common import gen_views, INIT_RECORDS_CHUNK, INIT_RECORDS_ALL
+from service.common import gen_views, INIT_RECORDS_CHUNK, INIT_RECORDS_ALL
 
 INSERT_QUERY = (
     'INSERT INTO research.views (user_id, movie_id, timestamp) VALUES'
@@ -28,10 +27,7 @@ def write_to_bd(client,
                 chunk: int = INIT_RECORDS_CHUNK,
                 total_size: int = INIT_RECORDS_ALL):
     for _ in tqdm(range(1, total_size, chunk), desc='Загрузка в Clickhouse'):
-        try:
-            client.execute(INSERT_QUERY, gen_views(chunk))
-        except Error as e:
-            raise e
+        client.execute(INSERT_QUERY, gen_views(chunk))
 
 
 if __name__ == '__main__':

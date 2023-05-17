@@ -3,7 +3,7 @@ from uuid import uuid4
 import vertica_python
 from tqdm import tqdm
 
-from common import (
+from service.common import (
     gen_views, INIT_RECORDS_CHUNK, INIT_RECORDS_ALL,
     USERS_COUNT, MOVIES_COUNT
 )
@@ -13,7 +13,7 @@ CONN_INFO = {
     'port': 5433,
     'user': 'dbadmin',
     'password': '',
-    'database': 'docker',
+    'database': 'VMart',
     'autocommit': True,
     # 'use_prepared_statements': True,
 }
@@ -43,11 +43,8 @@ def write_to_bd(cursor,
                 chunk: int = INIT_RECORDS_CHUNK,
                 total_size: int = INIT_RECORDS_ALL):
     for _ in tqdm(range(1, total_size, chunk), desc='Загрузка в Vertica'):
-        try:
-            cursor.executemany(QUERY, gen_views(chunk),
-                               use_prepared_statements=False)
-        except Exception as e:
-            raise e
+        values = gen_views(chunk)
+        cursor.executemany(QUERY, values, use_prepared_statements=False)
 
 
 if __name__ == '__main__':

@@ -17,7 +17,7 @@ services:
           memory: 4G
 
   vertica:
-    image: jbfavre/vertica:latest
+    image: vertica/vertica-ce:12.0.4-0
     container_name: vertica
     hostname: vertica
     restart: always

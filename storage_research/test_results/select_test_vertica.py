@@ -1,55 +1,80 @@
-"""Измерение скорости вставки данных в заполненное хранилище"""
+"""Измерение скорости чтения данных из Vertica посредством sql-запросов"""
+import os
 from random import choice
 
 import vertica_python
 
+from service.common import REPEAT_COUNT
 from storage_research.vertica import CONN_INFO
-from utility_vert import users_ids, movies_ids, time_execute
+from service.test_query import VERTICA_QUERIES_1, VERTICA_QUERIES_2
+from service.utility_vert import users_ids, movies_ids, time_execute
 
-SELECT_WITHOUT_VALUE = {
-    'Сколько всего записей': 'SELECT count(*) FROM views',
-    'Средний тайминг просмотра каждого фильма':
-        """
-        SELECT movie_id, avg(timestamp)
-        FROM views
-        GROUP BY movie_id
-        """,
-    'Список всех фильмов по разу': 'SELECT DISTINCT user_id from views',
-    'Количество фильмов, запущенных хоть ра на просмотр каждым юзером':
-        """
-        SELECT user_id, count(movie_id)
-        FROM views
-        GROUP by user_id
-        """
-}
-SELECT_QUERIES = {
-    'Список всех фильмов @юзера':
-        """
-        SELECT DISTINCT (movie_id)
-        FROM views
-        WHERE user_id = :user_id
-        """,
-    'Все фильмы @юзера (+ лучший тайминг)':
-        """
-        SELECT movie_id, max(timestamp)
-        FROM views
-        WHERE user_id = :user_id
-        GROUP BY movie_id
-        """,
-    'Самый долгий просмотра @фильма @юзером':
-        """
-        SELECT max(timestamp)
-        FROM views
-        WHERE movie_id = :movie_id AND user_id = :user_id
-        """,
-    'Список юзеров смотревших @фильм':
-        """
-        SELECT DISTINCT (user_id) 
-        FROM views 
-        WHERE movie_id = :movie_id
-        """,
 
-}
+def select_query_result(query, values=None):
+    results = []
+    for _ in range(REPEAT_COUNT):
+        exec_time = time_execute(
+            cursor, query, values
+        )
+        results.append(exec_time)
+    avg = sum(results) / REPEAT_COUNT
+    return avg
+
+
+def write_file():
+    with open("select_test.csv", "w") as file:
+        file.write('Vertica, Описание запроса\n')
+        for query in VERTICA_QUERIES_1:
+            data = select_query_result(VERTICA_QUERIES_1[query], values)
+            file.write(f'{data:0.4f}, {query}\n')
+        for query in VERTICA_QUERIES_2:
+            data = select_query_result(VERTICA_QUERIES_2[query])
+            file.write(f'{data:0.4f}, {query}\n')
+
+
+def select_time_rate():
+    """
+    Функция
+    - создаст файл, если его нет
+    - перезапишет файл, если количество запросов в файле поменялось
+      по сравнению с предыдущим выполнением
+    - обновит данные скорости чтения по Vertica, если они были, или
+    - добавит колонку vertica с результатами, если данных не было
+    """
+    _file = "select_test.csv"
+    if not os.path.exists(_file) or os.path.getsize(_file) == 0:
+        write_file()
+    else:
+        with open(_file, "r") as file:
+            text = file.readlines()
+            if len(text) != (
+                    len(VERTICA_QUERIES_1) + len(VERTICA_QUERIES_2) + 1
+            ):
+                write_file()
+                return
+            if 'Clickhouse' in text[0]:
+                text[0] = 'Clickhouse,Vertica, Описание запроса\n'
+            else:
+                text[0] = 'Vertica, Описание запроса\n'
+
+            for i, query in enumerate(VERTICA_QUERIES_1, start=1):
+                avg = select_query_result(VERTICA_QUERIES_1[query], values)
+                row_list = text[i].rstrip().split(sep=',')
+                if 'Clickhouse' in text[0]:
+                    text[i] = f'{row_list[0]},{avg:0.4f}, {query}\n'
+                else:
+                    text[i] = f'{avg:0.4f}, {query}\n'
+            for i, query in enumerate(VERTICA_QUERIES_2,
+                                      start=(len(VERTICA_QUERIES_1) + 1)):
+                avg = select_query_result(VERTICA_QUERIES_2[query])
+                row_list = text[i].rstrip().split(sep=',')
+                if 'Clickhouse' in text[0]:
+                    text[i] = f'{row_list[0]},{avg:0.4f}, {query}\n'
+                else:
+                    text[i] = f'{avg:0.4f}, {query}\n'
+        with open(_file, "w") as file:
+            file.writelines(text)
+
 
 if __name__ == "__main__":
     with vertica_python.connect(**CONN_INFO) as connection:
@@ -59,28 +84,4 @@ if __name__ == "__main__":
             "user_id": choice(users_ids(cursor)),
             "movie_id": choice(movies_ids(cursor))
         }
-        with open("select_test.csv", "r") as file:
-            text = file.readlines()
-            for i, query in enumerate(SELECT_QUERIES, start=1):
-                results = []
-                for _ in range(10):
-                    exec_time = time_execute(
-                        cursor, SELECT_QUERIES[query], values
-                    )
-                    results.append(exec_time)
-                avg = sum(results) / 10
-                row_list = text[i].rstrip().split(sep=',')
-                text[i] = row_list[0] + f',{avg:0.4f},' + row_list[-1] + '\n'
-            for i, query in enumerate(SELECT_WITHOUT_VALUE,
-                                      start=(len(SELECT_QUERIES) + 1)):
-                results = []
-                for _ in range(10):
-                    exec_time = time_execute(
-                        cursor, SELECT_WITHOUT_VALUE[query], values=None
-                    )
-                    results.append(exec_time)
-                avg = sum(results) / 10
-                row_list = text[i].rstrip().split(sep=',')
-                text[i] = row_list[0] + f',{avg:0.4f},' + row_list[-1] + '\n'
-        with open("select_test.csv", "w") as file:
-            file.writelines(text)
+        select_time_rate()
