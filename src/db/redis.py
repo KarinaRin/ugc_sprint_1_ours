@@ -4,11 +4,6 @@ from redis.client import Redis
 
 from src.core.config import settings
 
-redis: Optional[Redis] = Redis(
-    host=f'{settings.redis_host}',
-    port=settings.redis_port
-)
-
 
 class CustomRedis:
     def __init__(self, host, port, db):
@@ -22,4 +17,4 @@ class CustomRedis:
 
 
 def get_redis() -> Redis:
-    return CustomRedis(host='127.0.0.1', port=6379, db=1)
+    return CustomRedis(host=settings.redis_host, port=settings.redis_port, db=settings.redis_db)

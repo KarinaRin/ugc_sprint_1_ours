@@ -51,7 +51,6 @@ async def view(
 ):
     key = get_email_film_id(request['email'], user_content.film_id)
     user_generated_content = f"{request['email']}, {user_content.film_id}, {get_current_datetime()}, {user_content.timestamp}"
-    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', user_generated_content)
     kafka_producer.send('user_film_timestamp', user_generated_content, key)
     return {
         'email': request['email'],

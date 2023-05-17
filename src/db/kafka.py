@@ -6,10 +6,6 @@ from src.core.config import settings
 
 NUM_SYMBOLS_IN_EMAIL = 7
 
-kafka: Optional[KafkaProducer] = KafkaProducer(
-    bootstrap_servers=f'{settings.kafka_host}:{settings.kafka_port}'
-)
-
 
 class CustomKafkaProducer:
     def __init__(self, address):
@@ -30,4 +26,4 @@ class CustomKafkaProducer:
 
 
 def get_kafka_producer() -> KafkaProducer:
-    return CustomKafkaProducer(['localhost:9092'])
+    return CustomKafkaProducer([f'{settings.kafka_host}:{settings.kafka_port}'])
