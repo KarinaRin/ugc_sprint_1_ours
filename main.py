@@ -5,7 +5,7 @@ from fastapi.responses import ORJSONResponse
 from src.etl.kafka_clickhouse_etl import create_kafka_clickhouse_etl
 from src.api.v1 import view
 from src.core.config import settings
-
+from src.etl.kafka_redis_etl import create_connector
 
 app = FastAPI(
     title=settings.project_name,
@@ -22,7 +22,7 @@ app.include_router(
 @app.on_event('startup')
 async def startup():
     create_kafka_clickhouse_etl()
-
+    await create_connector()
 
 if __name__ == '__main__':
     uvicorn.run(

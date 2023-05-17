@@ -7,3 +7,4 @@ orjson==3.8.12
 python-jose==3.3.0
 gunicorn==20.1.0
 pydantic[dotenv]
+aiohttp

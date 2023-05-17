@@ -1,27 +1,36 @@
-from clickhouse_driver import Client
+import asyncio
+import aiohttp
+
+payload = {
+    "name": "RedisSinkConnector1",
+    "config": {
+        "connector.class": "com.github.jcustenborder.kafka.connect.redis.RedisSinkConnector",
+        "tasks.max": "1",
+        "topics": "user_film_timestamp",
+        "redis.hosts": "big_data_redis:6379",
+        "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+        "value.converter": "org.apache.kafka.connect.storage.StringConverter"
+    }
+}
+
+async def create_connector():
+    while True:
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post('http://kafka-connect:8083/connectors', json=payload) as response:
+                    print(response.status)
+                    print(await response.text())
+                    break
+        except:
+            await asyncio.sleep(1)
+            print('waiting kafka-connect')
 
 
-def create_kafka_clickhouse_etl():
-    client = Client(host='localhost')
-    create_kafka_engine = """
-    CREATE TABLE IF NOT EXISTS user_film_timestamp_queue (
-        email String,
-        film_id String,
-        time DateTime,
-        timestamp Int32
-    )
-    ENGINE = Kafka
-    SETTINGS kafka_broker_list = 'broker:29092',
-           kafka_topic_list = 'user_film_timestamp',
-           kafka_group_name = 'user_film_timestamp_clickhouse',
-           kafka_format = 'CSV',
-           kafka_max_block_size = 1048576;
-    """
-    client.execute(create_kafka_engine)
+    async with aiohttp.ClientSession() as session:
+        async with session.post('http://kafka-connect:8083/connectors', json=payload) as response:
+            print(response.status)
+            print(await response.text())
 
-    create_materialized_view = """
-        CREATE MATERIALIZED VIEW user_film_timestamp_queue_mv TO default.user_film_timestamp AS
-        SELECT email, film_id, time, timestamp
-        FROM user_film_timestamp_queue;
-    """
-    client.execute(create_materialized_view)
+
+if __name__ == '__main__':
+    asyncio.run(create_connector())
