@@ -1,0 +1,21 @@
+@startuml
+autonumber
+
+database "Kafka" as kafka
+participant "ETL" as etl
+database "ClickHouse" as ch
+database "Redis" as redis
+
+== Загрузка обработанных событий в ClickHouse ==
+etl -> kafka: Запрос на получение необработанных событий
+kafka --> etl: Отправка необработанных событий
+
+etl -> etl: Трансформация необработанных событий
+
+etl -> ch: Отправка обработанных событий
+ch --> etl: Обработанные события успешно сохранены
+
+etl -> redis: Отправка обработанных событий
+redis --> etl: Обработанные события успешно сохранены
+
+@enduml

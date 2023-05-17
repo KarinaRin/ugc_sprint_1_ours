@@ -1,0 +1,50 @@
+@startuml
+autonumber
+
+participant "Web client" as user
+participant "Auth service" as auth
+participant "Movie service" as movie
+participant "Ugc service" as ugc
+database "Kafka" as kafka
+database "Redis" as redis
+
+== Пользователь хочет посмотреть фильм ==
+
+user -> auth: Запрос аутентификации
+auth --> user: Аутентификация успешна
+
+user -> movie: Запрос на получения фильма
+movie -> auth: Проверка токена и роли пользователя
+alt Роль пользователя позволяет получить фильм
+    auth -> movie: Вернуть success
+    movie --> user: Фильм успешно получен
+else Роль пользователя не позволяет получить фильм
+    auth -> movie: Access Denied
+    movie --> user: Access Denied
+end
+
+== Пользователь прекращает просмотр фильма на определенном моменте ==
+
+user -> ugc: Отправка события о прекращении просмотра
+ugc -> ugc: Проверка токена и роли пользователя
+
+alt Роль пользователя позволяет записать событие
+    ugc -> kafka: Запрос на запись события
+    kafka --> ugc: Запрос успешно обработан
+    ugc --> user: Событие успешно сохранено
+else Роль пользователя не позволяет записать событие
+    ugc --> user: Событие не сохранено
+end
+
+== Пользователь вернулся чтобы досмотреть фильм ==
+
+user -> movie: Запрос на получения фильма
+user -> ugc: Запрос на получение timestamp по фильму
+ugc -> ugc: Проверка токена и роли пользователя
+ugc -> redis: Запрос на получение timestamp по фильму для опр-го пользователя
+redis --> ugc: Timestamp успешно получен
+
+movie --> user: Фильм успешно получен
+ugc --> user: Timestamp по фильльму успешно получен
+
+@enduml
