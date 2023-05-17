@@ -2,6 +2,7 @@ import uvicorn as uvicorn
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
+from src.etl.kafka_clickhouse_etl import create_kafka_clickhouse_etl
 from src.api.v1 import view
 from src.core.config import settings
 
@@ -17,6 +18,10 @@ app = FastAPI(
 
 app.include_router(
     view.router, prefix='/api/v1/view', tags=['View'])
+
+@app.on_event('startup')
+async def startup():
+    create_kafka_clickhouse_etl()
 
 
 if __name__ == '__main__':

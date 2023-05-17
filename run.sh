@@ -1,7 +1,7 @@
 #!/bin/sh
-docker-compose down
-docker rm -f $(docker ps -aq )
-docker-compose up -d
+#docker-compose down
+#docker rm -f $(docker ps -aq )
+#docker-compose up -d
 
 echo "init clickhouse_node1"
 cat clickhouse_node1_sql/create_shard.sql | docker-compose exec -T clickhouse-node1 clickhouse-client
@@ -25,6 +25,3 @@ timeout 300 bash -c 'while [[ "$(curl -o /dev/null -w ''%{http_code}'' localhost
 
 echo "init etl kafka - redis"
 curl -X POST -H 'Content-Type: application/json' --data @connector.json http://localhost:8083/connectors
-
-echo "init etl kafka - clickhouse"
-python clickhouse_kafka_etl.py
