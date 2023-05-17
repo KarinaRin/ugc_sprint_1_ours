@@ -1,7 +1,7 @@
 #!/bin/sh
-#docker-compose down
-#docker rm -f $(docker ps -aq )
-#docker-compose up -d
+docker-compose down
+docker rm -f $(docker ps -aq )
+docker-compose up -d
 
 echo "init clickhouse_node1"
 cat clickhouse_node1_sql/create_shard.sql | docker-compose exec -T clickhouse-node1 clickhouse-client
