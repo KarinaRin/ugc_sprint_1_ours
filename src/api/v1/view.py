@@ -27,7 +27,7 @@ async def content(
         film_id: str,
         request: HTTPAuthorizationCredentials = Depends(bearer_token),
         ugc_service: Service = Depends(get_ugc_service),
-):
+) -> dict:
     try:
         return await ugc_service.get_timestamp(request['email'], film_id)
     except Exception:
@@ -47,5 +47,5 @@ async def view(
         user_content: UserTimestamp,
         request: HTTPAuthorizationCredentials = Depends(bearer_token),
         ugc_service: Service = Depends(get_ugc_service),
-):
+) -> dict:
     return await ugc_service.add_timestamp(request['email'], user_content)

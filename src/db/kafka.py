@@ -6,7 +6,7 @@ NUM_SYMBOLS_IN_EMAIL = 7
 
 
 class CustomKafkaProducer:
-    def __init__(self, address):
+    def __init__(self, address: str):
         self.address = address
 
     async def send(self, topic, value, key):

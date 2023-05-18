@@ -12,12 +12,12 @@ class Service:
         self.redis = redis
         self.kafka_producer = kafka_producer
 
-    async def get_timestamp(self, email, film_id):
+    async def get_timestamp(self, email: str, film_id: str) -> dict:
         email_film_id = get_email_film_id(email, film_id)
         timestamp = await self.redis.get_timestamp(email_film_id)
         return {'timestamp': timestamp}
 
-    async def add_timestamp(self, email, user_content):
+    async def add_timestamp(self, email: str, user_content) -> dict:
         key = get_email_film_id(email, user_content.film_id)
         user_generated_content = f"{email}, {user_content.film_id}, {get_current_datetime()}, {user_content.timestamp}"
         await self.kafka_producer.send('user_film_timestamp', user_generated_content, key)
