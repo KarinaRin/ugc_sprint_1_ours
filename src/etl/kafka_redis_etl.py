@@ -24,7 +24,8 @@ async def create_connector():
                 async with session.post(settings.kafka_connector, json=payload) as response:
                     logging.info(response.status)
                     logging.info(await response.text())
-                    if response.status == 201 or response.status == 409:
+                    if response.status == 409:
+                        logging.info('"Connector RedisSinkConnector1 already exists!')
                         break
                     await asyncio.sleep(1)
         except:
