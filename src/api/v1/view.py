@@ -29,9 +29,9 @@ async def content(
         ugc_service: Service = Depends(get_ugc_service),
 ):
     try:
-        return ugc_service.get_timestamp(request['email'], film_id)
-    except Exception:
-        return {'error': 'No available data for user with film id'}
+        return await ugc_service.get_timestamp(request['email'], film_id)
+    except Exception as e:
+        return {'error': f'No available data for user with film id {e}'}
 
 
 @router.post(

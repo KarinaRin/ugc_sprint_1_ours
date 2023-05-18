@@ -2,6 +2,8 @@ import asyncio
 import aiohttp
 import logging
 
+from src.core.config import settings
+
 payload = {
     "name": "RedisSinkConnector1",
     "config": {
@@ -19,7 +21,7 @@ async def create_connector():
     while True:
         try:
             async with aiohttp.ClientSession() as session:
-                async with session.post('http://kafka-connect:8083/connectors', json=payload) as response:
+                async with session.post(settings.kafka_connector, json=payload) as response:
                     logging.info(response.status)
                     logging.info(await response.text())
                     break
@@ -28,7 +30,7 @@ async def create_connector():
             logging.info('waiting kafka-connect')
 
     async with aiohttp.ClientSession() as session:
-        async with session.post('http://kafka-connect:8083/connectors', json=payload) as response:
+        async with session.post(settings.kafka_connector, json=payload) as response:
             logging.info(response.status)
             logging.info(await response.text())
 

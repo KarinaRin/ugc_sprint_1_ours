@@ -19,10 +19,12 @@ app = FastAPI(
 app.include_router(
     view.router, prefix='/api/v1/view', tags=['View'])
 
+
 @app.on_event('startup')
 async def startup():
-    create_kafka_clickhouse_etl()
+    await create_kafka_clickhouse_etl()
     await create_connector()
+
 
 if __name__ == '__main__':
     uvicorn.run(

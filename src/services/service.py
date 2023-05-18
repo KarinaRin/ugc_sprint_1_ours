@@ -12,9 +12,9 @@ class Service:
         self.redis = redis
         self.kafka_producer = kafka_producer
 
-    def get_timestamp(self, email, film_id):
+    async def get_timestamp(self, email, film_id):
         email_film_id = get_email_film_id(email, film_id)
-        timestamp = self.redis.get_timestamp(email_film_id)
+        timestamp = await self.redis.get_timestamp(email_film_id)
         return {'timestamp': timestamp}
 
     def add_timestamp(self, email, user_content):
