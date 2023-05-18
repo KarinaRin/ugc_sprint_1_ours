@@ -36,8 +36,6 @@ services:
     hostname: kafka-connect
     image: confluentinc/cp-kafka-connect:latest
     container_name: kafka-connect
-    ports:
-      - 8083:8083
     depends_on:
       - schema-registry
       - big_data_redis
