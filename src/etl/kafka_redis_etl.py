@@ -24,7 +24,9 @@ async def create_connector():
                 async with session.post(settings.kafka_connector, json=payload) as response:
                     logging.info(response.status)
                     logging.info(await response.text())
-                    break
+                    if response.status == 201 or response.status == 409:
+                        break
+                    await asyncio.sleep(1)
         except:
             await asyncio.sleep(1)
             logging.info('waiting kafka-connect')

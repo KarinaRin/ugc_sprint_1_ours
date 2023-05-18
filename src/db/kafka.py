@@ -1,6 +1,4 @@
-from typing import Optional
-
-from kafka import KafkaProducer
+from aiokafka import AIOKafkaProducer
 
 from src.core.config import settings
 
@@ -9,21 +7,25 @@ NUM_SYMBOLS_IN_EMAIL = 7
 
 class CustomKafkaProducer:
     def __init__(self, address):
-        self.producer = KafkaProducer(
-            bootstrap_servers=address,
+        self.address = address
+
+    async def send(self, topic, value, key):
+        # have to define here, otherwise RuntimeError('There is no current event loop in thread %r.'
+        # https://github.com/aio-libs/aiokafka/issues/689#issuecomment-739567831
+        self.producer = AIOKafkaProducer(
+            bootstrap_servers=self.address,
             value_serializer=lambda x: x
         )
-
-    def send(self, topic, value, key):
-        self.producer.send(
+        await self.producer.start()
+        await self.producer.send_and_wait(
             topic,
             value=value.encode(),
             key=key.encode()
         )
 
-    def close(self):
-        self.producer.close()
+    async def close(self):
+        await self.producer.close()
 
 
-def get_kafka_producer() -> KafkaProducer:
+def get_kafka_producer() -> AIOKafkaProducer:
     return CustomKafkaProducer([f'{settings.kafka_host}:{settings.kafka_port}'])

@@ -17,7 +17,6 @@ class Settings(BaseSettings):
     kafka_host: str = '127.0.0.1'
     kafka_port: int = 9092
     kafka_connector: str = 'http://kafka-connect:8083/connectors'
-
     class Config:
         env_file = '.env'
 

@@ -46,4 +46,4 @@ async def view(
         request: HTTPAuthorizationCredentials = Depends(bearer_token),
         ugc_service: Service = Depends(get_ugc_service),
 ):
-    return ugc_service.add_timestamp(request['email'], user_content)
+    return await ugc_service.add_timestamp(request['email'], user_content)
