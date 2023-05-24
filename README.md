@@ -5,6 +5,29 @@
 ./run.sh
 ```
 
+Initialize the replica sets (config servers and shards)
+```bash
+cat mongo/scripts/init-configserver.js | docker-compose exec -T configsvr01 mongosh 
+cat mongo/scripts/init-shard01.js | docker-compose exec -T shard01-a mongosh 
+cat mongo/scripts/init-shard02.js | docker-compose exec -T shard02-a mongosh 
+cat mongo/scripts/init-shard03.js | docker-compose exec -T shard03-a mongosh 
+```
+
+Initializing the router
+
+```bash
+cat mongo/scripts/init-router.js | docker-compose exec -T router01 mongosh 
+```
+
+
+Enable sharding and setup sharding-key
+```bash
+
+docker-compose exec router01 mongosh --port 27017
+sh.enableSharding("UserGeneratedContent")
+db.adminCommand( { shardCollection: "UserGeneratedContent.UsersContent", key: { film_id: "hashed", zipCode: 1, supplierId: 1 } } )
+```
+
 2. Заходим в свагер
 
 http://127.0.0.1:8001/ugc_service/api/openapi 
