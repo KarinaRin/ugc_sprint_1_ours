@@ -23,5 +23,5 @@ class AbstractDocStorage(ABC):
         pass
 
     @abstractmethod
-    async def upgrade_object_in_db(self):
+    async def update_object_in_db(self):
         pass

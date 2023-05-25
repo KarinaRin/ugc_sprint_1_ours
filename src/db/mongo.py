@@ -14,32 +14,22 @@ class MongoDB(AbstractDocStorage):
         self.collection = self.mongo_db[settings.mongo_collection]
 
     async def get_aggregation(self, pipeline):
-        await self.collection.aggregate(pipeline).to_list(length=None)
+        return await self.collection.aggregate(pipeline).to_list(length=None)
 
-    async def get_one_object_from_db(
-            self, index, doc_id: str, model: BaseModel
-    ):
+    async def get_one_object_from_db(self, query):
+        return await self.collection.find_one(query)
+
+    async def get_objects_from_db(self):
         pass
 
-    async def get_objects_from_db(
-            self, index, body: dict, model: BaseModel
-    ):
-        pass
-
-    async def put_object_to_db(
-            self, document: dict
-    ):
+    async def put_object_to_db(self, document: dict):
         await self.collection.insert_one(document)
 
-    async def delete_object_from_db(
-            self, index, body: dict, model: BaseModel
-    ):
+    async def delete_object_from_db(self):
         pass
 
-    async def upgrade_object_in_db(
-            self, index, body: dict, model: BaseModel
-    ):
-        pass
+    async def update_object_in_db(self, present_data, new_data):
+        await self.collection.update_one(present_data, new_data)
 
 
 async def get_db_storage():

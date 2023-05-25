@@ -5,7 +5,8 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from src.api.v1.pipelines.likes_pipeline import LikesPipline
 from src.models.likes import (FilmAverageRatingResponse,
-                              FilmLikesDislikesResponse)
+                              FilmLikesDislikesResponse,
+                              LikeChangeModel)
 from src.services.likes_service import get_likes_service
 from src.services.service import Service
 from src.utils.auth_check import check_permission
@@ -19,7 +20,7 @@ bearer_token = HTTPBearer()
     response_model=FilmLikesDislikesResponse,
     summary='Получение лайков и дизлайков',
     description='Вывод количество лайков и дизлайков',
-    response_description='Количество лайков и дизлайков'
+    response_description='ID фильма и количество лайков и дизлайков'
 )
 @check_permission(required_role=['admin', 'subscriber'])
 async def likes_dislikes_statistics(
@@ -40,9 +41,9 @@ async def likes_dislikes_statistics(
 @router.get(
     '/average-rating',
     response_model=FilmAverageRatingResponse,
-    summary='Получение лайков и дизлайков',
-    description='Вывод количество лайков и дизлайков',
-    response_description='Количество лайков и дизлайков'
+    summary='Получение среднего значения рейтинга',
+    description='Вывод среднего значения рейтинга',
+    response_description='ID фильма и среднее значение рейтинга'
 )
 @check_permission(required_role=['admin', 'subscriber'])
 async def get_average_rating(
@@ -58,3 +59,25 @@ async def get_average_rating(
             detail='document not found'
         )
     return FilmAverageRatingResponse(**result)
+
+
+@router.post(
+    '/change-like',
+    summary='',
+    description='',
+    response_description=''
+)
+@check_permission(required_role=['admin', 'subscriber'])
+async def change_like(
+        user_content: LikeChangeModel,
+        request: HTTPAuthorizationCredentials = Depends(bearer_token),
+        like_service: Service = Depends(get_likes_service),
+):
+    query = {"film_id": user_content.film_id,
+             "user_id": request['email']}
+
+    await like_service.change_like_or_create(
+        query,
+        user_content.like
+    )
+    return {'ok': 'ok'}
