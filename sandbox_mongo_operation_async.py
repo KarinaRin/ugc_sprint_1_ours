@@ -13,7 +13,7 @@ posts.delete_many({})
 post = {
     "doc_id": "123-45-678",
     "user_id": "121-12-516",
-    "film_id": "155-15-515",
+    "film_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     'likes': 10,
     "review": {
         "review_id": "205-325-056",
@@ -38,7 +38,7 @@ loop.run_until_complete(do_insert())
 post = {
     "doc_id": "163-45-678",
     "user_id": "141-12-516",
-    "film_id": "155-15-515",
+    "film_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     'likes': None,
     "review": {
         "review_id": "205-115-056",
@@ -55,7 +55,7 @@ loop.run_until_complete(do_insert())
 post = {
     "doc_id": "000-45-678",
     "user_id": "000-13-518",
-    "film_id": "155-15-515",
+    "film_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     'likes': 0,
     "review": {
         "review_id": "201-321-055",
@@ -72,8 +72,8 @@ loop.run_until_complete(do_insert())
 post = {
     "doc_id": "00110-45-678",
     "user_id": "001110-13-518",
-    "film_id": "999-15-515",
-    'likes': 111111110,
+    "film_id": "11185f64-5717-4562-b3fc-2c963f66afa6",
+    'likes': 100,
     "review": {
         "review_id": "20221-32221-0515",
         "text": "this was bad!",
@@ -101,7 +101,7 @@ print('\n\nПросмотр средней пользовательской оц
 
 pipeline = [
     # Matchn the documents possible
-    {"$match": {"film_id": "155-15-515"}},
+    {"$match": {"film_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"}},
 
     # # Group the documents and "count" via $sum on the values
     {"$group": {
@@ -127,7 +127,7 @@ loop.run_until_complete(do_aggregate(pipeline))
 print('\n\nПросмотр количества лайков у фильма')
 pipeline = [
     # Matchn the documents possible
-    {"$match": {"film_id": "155-15-515", "likes": 10}},
+    {"$match": {"film_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "likes": 10}},
 
     # # Group the documents and "count" via $sum on the values
     {"$group": {
@@ -145,7 +145,7 @@ loop.run_until_complete(do_aggregate(pipeline))
 print('\n\nПросмотр количества дизлайков у фильма')
 pipeline = [
     # Matchn the documents possible
-    {"$match": {"film_id": "155-15-515", "likes": 0}},
+    {"$match": {"film_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "likes": 0}},
 
     # # Group the documents and "count" via $sum on the values
     {"$group": {
@@ -162,7 +162,7 @@ loop.run_until_complete(do_aggregate(pipeline))
 print('\n\nПросмотр количества лайков и дизлайков у фильма')
 pipeline = [
     # Matchn the documents possible
-    {"$match": {"film_id": "155-15-515", "likes": { "$ne": None }}},
+    {"$match": {"film_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "likes": { "$ne": None }}},
 
     # # Group the documents and "count" via $sum on the values
     {"$group": {
@@ -180,7 +180,7 @@ loop.run_until_complete(do_aggregate(pipeline))
 print('\n\nДобавление, удаление или изменение лайка, дизлайка или оценки.')
 
 # Изменение лайка - любое значение. Удаление ставим None. Добавление любое значение вместо None
-query = {"film_id": "155-15-515", "user_id": "141-12-516"}
+query = {"film_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "user_id": "141-12-516"}
 
 async def change_likes(query):
     present_data = await posts.find_one(query)
@@ -191,7 +191,7 @@ async def change_likes(query):
 loop.run_until_complete(change_likes(query))
 
 async def check():
-    query = {"film_id": "155-15-515", "user_id": "141-12-516"}
+    query = {"film_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "user_id": "141-12-516"}
     present_data = await posts.find_one(query)
     print(present_data)
 loop.run_until_complete(change_likes(query))

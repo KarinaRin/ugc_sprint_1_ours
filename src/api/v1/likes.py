@@ -1,16 +1,22 @@
-from fastapi import APIRouter, Depends
+from http import HTTPStatus
+
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
+from src.api.v1.pipelines.likes_pipeline import LikesPipline
+from src.models.likes import (FilmAverageRatingResponse,
+                              FilmLikesDislikesResponse)
 from src.services.likes_service import get_likes_service
-from src.services.service import Service, get_ugc_service
+from src.services.service import Service
 from src.utils.auth_check import check_permission
 
 router = APIRouter()
 bearer_token = HTTPBearer()
 
-#155-15-515
+
 @router.get(
     '/likes-dislikes-statistics',
+    response_model=FilmLikesDislikesResponse,
     summary='Получение лайков и дизлайков',
     description='Вывод количество лайков и дизлайков',
     response_description='Количество лайков и дизлайков'
@@ -21,25 +27,19 @@ async def likes_dislikes_statistics(
         request: HTTPAuthorizationCredentials = Depends(bearer_token),
         like_service: Service = Depends(get_likes_service),
 ):
-    pipeline = [
-        # Matchn the documents possible
-        {"$match": {"film_id": film_id, "likes": {"$ne": None}}},
-
-        # # Group the documents and "count" via $sum on the values
-        {"$group": {
-            "_id": {
-                "film_id": "$film_id",
-                "likes": "$likes"
-            },
-            'count': {"$sum": 1},
-        }}
-    ]
-
-    return await like_service.get_aggregation(pipeline)
+    pipeline = LikesPipline().likes_dislikes_pipeline(film_id)
+    result = await like_service.get_aggregation_likes_dislikes(pipeline)
+    if not result:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND,
+            detail='document not found'
+        )
+    return FilmLikesDislikesResponse(**result)
 
 
 @router.get(
     '/average-rating',
+    response_model=FilmAverageRatingResponse,
     summary='Получение лайков и дизлайков',
     description='Вывод количество лайков и дизлайков',
     response_description='Количество лайков и дизлайков'
@@ -50,17 +50,11 @@ async def get_average_rating(
         request: HTTPAuthorizationCredentials = Depends(bearer_token),
         like_service: Service = Depends(get_likes_service),
 ):
-    pipeline = [
-        # Matchn the documents possible
-        {"$match": {"film_id": film_id}},
-
-        # # Group the documents and "count" via $sum on the values
-        {"$group": {
-            "_id": {
-                "film_id": "$film_id",
-            },
-            'average_movie_rating': {"$avg": "$likes"}
-        }}
-    ]
-
-    return await like_service.get_aggregation(pipeline)
+    pipeline = LikesPipline().average_rating_pipeline(film_id)
+    result = await like_service.get_aggregation_average_rating(pipeline)
+    if not result:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND,
+            detail='document not found'
+        )
+    return FilmAverageRatingResponse(**result)

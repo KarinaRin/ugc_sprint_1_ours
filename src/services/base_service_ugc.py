@@ -13,5 +13,6 @@ class BaseServiceUGC:
         return document
 
     async def get_aggregation(self, pipeline):
-        return await self.db_storage.collection.aggregate(pipeline).to_list(length=None)
-
+        return await self.db_storage.collection.aggregate(
+            pipeline
+        ).to_list(length=None)

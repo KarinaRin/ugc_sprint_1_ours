@@ -26,7 +26,7 @@ def create_kafka_clickhouse_etl():
     """
     client.execute(create_materialized_view)
 
-#TODO: fix
+# TODO: fix
 
 # from clickhouse_driver import Client
 #

@@ -1,10 +1,8 @@
-from typing import Optional
-
-from pydantic import BaseModel
 from motor.motor_asyncio import AsyncIOMotorClient
+from pydantic import BaseModel
 
-from .base import AbstractDocStorage
 from ..core.config import settings
+from .base import AbstractDocStorage
 
 
 class MongoDB(AbstractDocStorage):

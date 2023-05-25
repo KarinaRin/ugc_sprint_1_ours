@@ -1,5 +1,3 @@
-from typing import Optional
-
 from kafka import KafkaProducer
 
 from src.core.config import settings
@@ -26,4 +24,6 @@ class CustomKafkaProducer:
 
 
 def get_kafka_producer() -> KafkaProducer:
-    return CustomKafkaProducer([f'{settings.kafka_host}:{settings.kafka_port}'])
+    return CustomKafkaProducer(
+        [f'{settings.kafka_host}:{settings.kafka_port}']
+    )

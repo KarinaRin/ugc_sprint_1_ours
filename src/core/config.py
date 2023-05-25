@@ -20,11 +20,10 @@ class Settings(BaseSettings):
     mongo_port: int = 27117
     mongo_database: str = 'UserGeneratedContent'
     mongo_collection: str = 'UsersContent'
-    clickhouse_host = '127.0.0.1' # clickhouse-node1
+    clickhouse_host = '127.0.0.1'  # clickhouse-node1
 
 
 settings = Settings()
-
 
 # Уровень логирования
 LOGGING['root']['level'] = settings.debug_level

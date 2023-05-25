@@ -1,5 +1,3 @@
-from typing import Optional
-
 from redis.client import Redis
 
 from src.core.config import settings
@@ -16,5 +14,9 @@ class CustomRedis:
         return self._get_message(key).split(',')[3]
 
 
-def get_redis() -> Redis:
-    return CustomRedis(host=settings.redis_host, port=settings.redis_port, db=settings.redis_db)
+def get_redis() -> CustomRedis:
+    return CustomRedis(
+        host=settings.redis_host,
+        port=settings.redis_port,
+        db=settings.redis_db
+    )

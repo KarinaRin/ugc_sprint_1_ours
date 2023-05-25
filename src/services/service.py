@@ -4,7 +4,7 @@ from redis.client import Redis
 
 from src.db.kafka import get_kafka_producer
 from src.db.redis import get_redis
-from src.utils.utils import get_email_film_id, get_current_datetime
+from src.utils.utils import get_current_datetime, get_email_film_id
 
 
 class Service:
@@ -20,7 +20,9 @@ class Service:
     def add_timestamp(self, email, user_content):
         key = get_email_film_id(email, user_content.film_id)
         user_generated_content = f"{email}, {user_content.film_id}, {get_current_datetime()}, {user_content.timestamp}"
-        self.kafka_producer.send('user_film_timestamp', user_generated_content, key)
+        self.kafka_producer.send(
+            'user_film_timestamp', user_generated_content, key
+        )
         return {'email': email,
                 'film_id': user_content.film_id,
                 'user_timestamp': user_content.timestamp}
@@ -31,4 +33,3 @@ def get_ugc_service(
         kafka_producer: KafkaProducer = Depends(get_kafka_producer),
 ) -> Service:
     return Service(redis, kafka_producer)
-

@@ -19,7 +19,7 @@ app = FastAPI(
 app.include_router(
     view.router, prefix='/api/v1/view', tags=['View'])
 app.include_router(
-    likes.router, prefix='/api/v1/likes', tags=['View'])
+    likes.router, prefix='/api/v1/likes', tags=['Likes'])
 
 
 @app.on_event('startup')
