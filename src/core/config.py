@@ -16,9 +16,11 @@ class Settings(BaseSettings):
     token_secret_key: str = 'very_secret_key'
     kafka_host: str = '127.0.0.1'
     kafka_port: int = 9092
-
-    class Config:
-        env_file = '.env'
+    mongo_host: str = '127.0.0.1'
+    mongo_port: int = 27117
+    mongo_database: str = 'UserGeneratedContent'
+    mongo_collection: str = 'UsersContent'
+    clickhouse_host = '127.0.0.1' # clickhouse-node1
 
 
 settings = Settings()
