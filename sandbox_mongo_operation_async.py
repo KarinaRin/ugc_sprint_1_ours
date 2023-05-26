@@ -41,7 +41,6 @@ post = {
     "film_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     'likes': None,
     "review": {
-        "review_id": "205-115-056",
         "text": "this was good!",
         'date': datetime.utcnow(),
         'author': 'test@test.com',
@@ -54,14 +53,12 @@ loop.run_until_complete(do_insert())
 
 post = {
     "doc_id": "000-45-678",
-    "user_id": "000-13-518",
+    "email": "test@test.com",
     "film_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     'likes': 0,
     "review": {
-        "review_id": "201-321-055",
         "text": "this was bad!",
         'date': datetime.utcnow(),
-        'author': 'test@test.com',
         'likes': ['test3@test.com', 'test4@test.com'],
         'dislikes': ['test0@test.com', 'test5@test.com']
     },
@@ -71,14 +68,13 @@ loop.run_until_complete(do_insert())
 
 post = {
     "doc_id": "00110-45-678",
-    "user_id": "001110-13-518",
+    "email": "test@test.com",
     "film_id": "11185f64-5717-4562-b3fc-2c963f66afa6",
     'likes': 100,
     "review": {
         "review_id": "20221-32221-0515",
         "text": "this was bad!",
         'date': datetime.utcnow(),
-        'author': 'test@test.com',
         'likes': ['test3@test.com', 'test4@test.com'],
         'dislikes': ['test0@test.com', 'test5@test.com']
     },

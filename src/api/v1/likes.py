@@ -74,10 +74,17 @@ async def change_like(
         like_service: Service = Depends(get_likes_service),
 ):
     query = {"film_id": user_content.film_id,
-             "user_id": request['email']}
+             "email": request['email']}
 
-    await like_service.change_like_or_create(
+    user_info = {}
+    user_info['email'] = request['email']
+    user_info['film_id'] = user_content.film_id
+    user_info['like'] = user_content.like
+
+    result = await like_service.change_like_or_create(
         query,
-        user_content.like
+        user_info
     )
-    return {'ok': 'ok'}
+    del result['_id']
+    print('aaaaaaaaaaaaaaaaaaaaaaa', result)
+    return result

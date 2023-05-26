@@ -36,30 +36,24 @@ class LikesService(BaseServiceUGC):
             }
         return response
 
-    async def change_like_or_create(self, query, like):
+    async def change_like_or_create(self, query, user_info):
         print('22222222222', query)
         present_data = await super().find_one_document(query)
         print('111111111111', present_data)
         if present_data:
-            new_data = {'$set': {"likes": like}}
+            new_data = {'$set': {"likes": user_info['like']}}
             await super().update_one_document(present_data, new_data)
         else:
             document = {
-                "doc_id": "00110-45-678",
-                "user_id": "001110-13-518",
-                "film_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                'likes': like,
-                "review": {
-                    "review_id": "20221-32221-0515",
-                    "text": "this was bad!",
-                    'date': datetime.utcnow(),
-                    'author': 'test@test.com',
-                    'likes': ['test3@test.com', 'test4@test.com'],
-                    'dislikes': ['test0@test.com', 'test5@test.com']
-                },
-                'bookmark': True
+                "email": user_info['email'],
+                "film_id": user_info['film_id'],
+                'likes': user_info['like'],
+                "review": {},
+                'bookmark': False
             }
             await super().insert_one_document(document)
+        return await super().find_one_document(query)
+
 
 @lru_cache()
 def get_likes_service(
