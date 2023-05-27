@@ -153,3 +153,4 @@ dmypy.json
 /mongo/mongodb_cluster_shard03_b_db/
 /mongo/mongodb_cluster_shard03_c_config/
 /mongo/mongodb_cluster_shard03_c_db/
+check_connection.temp
