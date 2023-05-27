@@ -1,4 +1,5 @@
 import uuid
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -16,4 +17,12 @@ class FilmLikesDislikesResponse(BaseModel):
 
 class LikeChangeModel(BaseModel):
     film_id: str
-    like: int
+    like: Optional[int]
+
+
+class FilmChangeLikeResponse(BaseModel):
+    email: str
+    film_id: uuid.UUID
+    likes: Optional[int]
+    review: dict
+    bookmark: bool

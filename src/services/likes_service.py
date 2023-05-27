@@ -22,7 +22,7 @@ class LikesService(BaseServiceUGC):
             for item in result:
                 if item['_id']['likes'] == 10:
                     response['likes'] = item['count']
-                else:
+                elif item['_id']['likes'] == 0:
                     response['dislikes'] = item['count']
         return response
 

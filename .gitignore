@@ -129,3 +129,27 @@ dmypy.json
 .pyre/
 
 .python-version
+/mongo/mongodb_cluster_configsvr01_config/
+/mongo/mongodb_cluster_configsvr01_db/
+/mongo/mongodb_cluster_configsvr02_config/
+/mongo/mongodb_cluster_configsvr02_db/
+/mongo/mongodb_cluster_configsvr03_config/
+/mongo/mongodb_cluster_configsvr03_db/
+/mongo/mongodb_cluster_shard01_a_config/
+/mongo/mongodb_cluster_shard01_a_db/
+/mongo/mongodb_cluster_shard01_b_config/
+/mongo/mongodb_cluster_shard01_b_db/
+/mongo/mongodb_cluster_shard01_c_config/
+/mongo/mongodb_cluster_shard01_c_db/
+/mongo/mongodb_cluster_shard02_a_config/
+/mongo/mongodb_cluster_shard02_a_db/
+/mongo/mongodb_cluster_shard02_b_config/
+/mongo/mongodb_cluster_shard02_b_db/
+/mongo/mongodb_cluster_shard02_c_config/
+/mongo/mongodb_cluster_shard02_c_db/
+/mongo/mongodb_cluster_shard03_a_config/
+/mongo/mongodb_cluster_shard03_a_db/
+/mongo/mongodb_cluster_shard03_b_config/
+/mongo/mongodb_cluster_shard03_b_db/
+/mongo/mongodb_cluster_shard03_c_config/
+/mongo/mongodb_cluster_shard03_c_db/

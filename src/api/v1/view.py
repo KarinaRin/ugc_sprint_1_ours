@@ -27,11 +27,13 @@ async def content(
         film_id: str,
         request: HTTPAuthorizationCredentials = Depends(bearer_token),
         ugc_service: Service = Depends(get_ugc_service),
-):
+) -> dict:
     try:
-        return ugc_service.get_timestamp(request['email'], film_id)
+        return await ugc_service.get_timestamp(request['email'], film_id)
     except Exception:
-        return {'error': 'No available data for user with film id'}
+        return {'error': f'No available data for user with email '
+                         f'{request["email"]} with film id = {film_id}'
+                }
 
 
 @router.post(
@@ -45,5 +47,5 @@ async def view(
         user_content: UserTimestamp,
         request: HTTPAuthorizationCredentials = Depends(bearer_token),
         ugc_service: Service = Depends(get_ugc_service),
-):
-    return ugc_service.add_timestamp(request['email'], user_content)
+) -> dict:
+    return await ugc_service.add_timestamp(request['email'], user_content)

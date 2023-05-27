@@ -6,7 +6,7 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from src.api.v1.pipelines.likes_pipeline import LikesPipline
 from src.models.likes import (FilmAverageRatingResponse,
                               FilmLikesDislikesResponse,
-                              LikeChangeModel)
+                              LikeChangeModel, FilmChangeLikeResponse)
 from src.services.likes_service import get_likes_service
 from src.services.service import Service
 from src.utils.auth_check import check_permission
@@ -53,16 +53,23 @@ async def get_average_rating(
 ):
     pipeline = LikesPipline().average_rating_pipeline(film_id)
     result = await like_service.get_aggregation_average_rating(pipeline)
+    print('11111111', result)
     if not result:
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND,
             detail='document not found'
+        )
+    if result['average_movie_rating'] is None:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND,
+            detail='This Film Is Not Yet Rated'
         )
     return FilmAverageRatingResponse(**result)
 
 
 @router.post(
     '/change-like',
+    response_model=FilmChangeLikeResponse,
     summary='',
     description='',
     response_description=''
@@ -85,6 +92,4 @@ async def change_like(
         query,
         user_info
     )
-    del result['_id']
-    print('aaaaaaaaaaaaaaaaaaaaaaa', result)
-    return result
+    return FilmChangeLikeResponse(**result)

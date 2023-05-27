@@ -28,7 +28,7 @@ def check_permission(required_role: list):
     return wrapper
 
 
-def check_user_role(user_role, required_role):
+def check_user_role(user_role: str, required_role: list):
     if user_role not in required_role:
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,

@@ -1,17 +1,19 @@
-from redis.client import Redis
+from redis.asyncio import Redis
 
 from src.core.config import settings
 
 
 class CustomRedis:
-    def __init__(self, host, port, db):
+    def __init__(self, host: str, port: int, db: int):
         self.redis = Redis(host=host, port=port, db=db)
 
-    def _get_message(self, key):
-        return self.redis.get(key).decode()
+    async def _get_message(self, key: str) -> str:
+        message = await self.redis.get(key)
+        return message.decode()
 
-    def get_timestamp(self, key):
-        return self._get_message(key).split(',')[3]
+    async def get_timestamp(self, key: str) -> str:
+        message = await self._get_message(key)
+        return message.split(',')[3]
 
 
 def get_redis() -> CustomRedis:

@@ -24,7 +24,7 @@ app.include_router(
 
 @app.on_event('startup')
 async def startup():
-    create_kafka_clickhouse_etl()
+    await create_kafka_clickhouse_etl()
     await create_connector()
 
 

@@ -5,7 +5,7 @@ class LikesPipline:
     def likes_dislikes_pipeline(film_id):
         return [
             # Match the documents possible
-            {"$match": {"film_id": film_id, "likes": {"$ne": None}}},
+            {"$match": {"film_id": film_id}},
 
             # Group the documents and "count" via $sum on the values
             {"$group": {

@@ -2,7 +2,9 @@ import asyncio
 import logging
 
 import aiohttp
+from src.core.config import settings
 
+# TODO fix!
 payload = {
     "name": "RedisSinkConnector1",
     "config": {
@@ -22,18 +24,21 @@ async def create_connector():
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.post(
-                        'http://localhost:8083/connectors', json=payload
+                        settings.kafka_connector, json=payload
                 ) as response:
                     logging.info(response.status)
                     logging.info(await response.text())
-                    break
+                    if response.status == 409:
+                        logging.info('"Connector RedisSinkConnector1 already exists!')
+                        break
+                    await asyncio.sleep(1)
         except:
             await asyncio.sleep(1)
             logging.info('waiting kafka-connect')
 
     async with aiohttp.ClientSession() as session:
         async with session.post(
-                'http://localhost:8083/connectors', json=payload
+                settings.kafka_connector, json=payload
         ) as response:
             logging.info(response.status)
             logging.info(await response.text())
