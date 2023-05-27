@@ -2,6 +2,7 @@ import asyncio
 import logging
 
 import aiohttp
+
 from src.core.config import settings
 
 # TODO fix!
@@ -18,7 +19,6 @@ payload = {
 }
 
 
-# TODO fix!
 async def create_connector():
     while True:
         try:
@@ -46,24 +46,3 @@ async def create_connector():
 
 if __name__ == '__main__':
     asyncio.run(create_connector())
-
-# async def create_connector():
-#     while True:
-#         try:
-#             async with aiohttp.ClientSession() as session:
-#                 async with session.post('http://kafka-connect:8083/connectors', json=payload) as response:
-#                     logging.info(response.status)
-#                     logging.info(await response.text())
-#                     break
-#         except:
-#             await asyncio.sleep(1)
-#             logging.info('waiting kafka-connect')
-#
-#     async with aiohttp.ClientSession() as session:
-#         async with session.post('http://kafka-connect:8083/connectors', json=payload) as response:
-#             logging.info(response.status)
-#             logging.info(await response.text())
-#
-#
-# if __name__ == '__main__':
-#     asyncio.run(create_connector())

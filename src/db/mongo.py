@@ -1,5 +1,4 @@
 from motor.motor_asyncio import AsyncIOMotorClient
-from pydantic import BaseModel
 
 from ..core.config import settings
 from .base import AbstractDocStorage

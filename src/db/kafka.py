@@ -10,7 +10,8 @@ class CustomKafkaProducer:
         self.address = address
 
     async def send(self, topic, value, key):
-        # have to define here, otherwise RuntimeError('There is no current event loop in thread %r.'
+        # have to define here, otherwise RuntimeError
+        # 'There is no current event loop in thread %r.'
         # https://github.com/aio-libs/aiokafka/issues/689#issuecomment-739567831
         self.producer = AIOKafkaProducer(
             bootstrap_servers=self.address,

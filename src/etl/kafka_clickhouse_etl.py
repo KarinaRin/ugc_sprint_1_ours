@@ -1,12 +1,12 @@
-from asynch import connect
-from asynch.cursors import DictCursor
 import asyncio
 
+from asynch import connect
+from asynch.cursors import DictCursor
 
-# TODO fix
+
 async def create_kafka_clickhouse_etl():
     conn = await connect(
-        host="localhost",  #clickhouse-node1
+        host="localhost",
         port=9000,
     )
     async with conn.cursor(cursor=DictCursor) as cursor:
@@ -20,7 +20,7 @@ async def create_kafka_clickhouse_etl():
             timestamp Int32
         )
         ENGINE = Kafka
-        SETTINGS kafka_broker_list = 'localhost:9092',
+        SETTINGS kafka_broker_list = 'broker:29092',
                kafka_topic_list = 'user_film_timestamp',
                kafka_group_name = 'user_film_timestamp_clickhouse',
                kafka_format = 'CSV',

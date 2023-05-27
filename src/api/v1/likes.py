@@ -5,8 +5,8 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from src.api.v1.pipelines.likes_pipeline import LikesPipline
 from src.models.likes import (FilmAverageRatingResponse,
-                              FilmLikesDislikesResponse,
-                              LikeChangeModel, FilmChangeLikeResponse)
+                              FilmChangeLikeResponse,
+                              FilmLikesDislikesResponse, LikeChangeModel)
 from src.services.likes_service import get_likes_service
 from src.services.service import Service
 from src.utils.auth_check import check_permission

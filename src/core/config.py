@@ -21,8 +21,7 @@ class Settings(BaseSettings):
     mongo_database: str = 'UserGeneratedContent'
     mongo_collection: str = 'UsersContent'
     clickhouse_host = '127.0.0.1'  # clickhouse-node1
-    kafka_connector: str = 'http://127.0.0.1:8083/connectors' # kafka-connect
-
+    kafka_connector: str = 'http://127.0.0.1:8083/connectors'  # kafka-connect
 
 
 settings = Settings()
