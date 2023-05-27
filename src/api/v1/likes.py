@@ -53,7 +53,6 @@ async def get_average_rating(
 ):
     pipeline = LikesPipline().average_rating_pipeline(film_id)
     result = await like_service.get_aggregation_average_rating(pipeline)
-    print('11111111', result)
     if not result:
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND,
