@@ -14,16 +14,21 @@ posts.delete_many({})
 # wait for deletig
 time.sleep(5)
 
+loop = asyncio.get_event_loop()
+async def print_indexes():
+    async for index in posts.list_indexes():
+        print(index)
+
+loop.run_until_complete(print_indexes())
+
 
 async def do_insert(post):
     result = await posts.insert_one(post)
     print('result %s' % repr(result.inserted_id))
 
 
-loop = asyncio.get_event_loop()
-
-# for i, like in enumerate((0, 0, 0, 10, 10, 10)):
-for i, like in enumerate(('None', 'None1', '2', 'None', '1', 'None')):
+for i, like in enumerate((0, 0, 0, 10, 10, 10)):
+# for i, like in enumerate(('None', 'None1', '2', 'None', '1', 'None')):
     print(i)
     post = {
         "email": f"test{i}@test.com",

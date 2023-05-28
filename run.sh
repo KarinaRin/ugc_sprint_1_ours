@@ -50,7 +50,7 @@ cat mongo/scripts/init-router.js | docker-compose exec -T router01 mongosh
 echo "Enable sharding and setup sharding-key"
 
 echo 'sh.enableSharding("UserGeneratedContent")' |   docker-compose exec -T router01 mongosh --port 27017
-echo 'db.adminCommand( { shardCollection: "UserGeneratedContent.UsersContent", key: { film_id: "hashed", zipCode: 1, supplierId: 1 } } )' |   docker-compose exec -T router01 mongosh --port 27017
+echo 'db.adminCommand( { shardCollection: "UserGeneratedContent.UsersContent", key: { film_id: "hashed", email: 1, zipCode: 1, supplierId: 1 } } )' |   docker-compose exec -T router01 mongosh --port 27017
 
 
 
