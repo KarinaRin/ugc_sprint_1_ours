@@ -1,3 +1,6 @@
+import logging
+
+import logstash
 import uvicorn as uvicorn
 import sentry_sdk
 
@@ -27,6 +30,11 @@ app = FastAPI(
     default_response_class=ORJSONResponse,
 )
 
+app.logger = logging.getLogger(__name__)
+app.logger.setLevel(logging.INFO)
+# logstash
+app.logger.addHandler(logstash.LogstashHandler('localhost', 5044, version=1))
+
 app.include_router(
     view.router, prefix='/api/v1/view', tags=['View'])
 app.include_router(
@@ -41,7 +49,10 @@ async def startup():
 
 @app.get("/sentry-debug")
 async def trigger_error():
-    division_by_zero = 1 / 0
+    logging.info('aaaa')
+    logging.error('bbbbb')
+    return {}
+    # division_by_zero = 1 / 0
 
 
 if __name__ == '__main__':
