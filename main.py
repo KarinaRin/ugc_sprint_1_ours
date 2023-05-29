@@ -1,4 +1,6 @@
 import uvicorn as uvicorn
+import sentry_sdk
+
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
@@ -6,6 +8,15 @@ from src.etl.kafka_clickhouse_etl import create_kafka_clickhouse_etl
 from src.api.v1 import view, likes
 from src.core.config import settings
 from src.etl.kafka_redis_etl import create_connector
+
+sentry_sdk.init(
+    dsn=settings.sentry_dsn,
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production,
+    traces_sample_rate=1.0,
+)
 
 app = FastAPI(
     title=settings.project_name,
@@ -26,6 +37,11 @@ app.include_router(
 async def startup():
     await create_kafka_clickhouse_etl()
     await create_connector()
+
+
+@app.get("/sentry-debug")
+async def trigger_error():
+    division_by_zero = 1 / 0
 
 
 if __name__ == '__main__':
