@@ -43,14 +43,6 @@ async def startup():
     await create_connector()
 
 
-@app.get("/sentry-debug")
-async def trigger_error():
-    logging.info('aaaa')
-    logging.error('bbbbb')
-    return {}
-    # division_by_zero = 1 / 0
-
-
 if __name__ == '__main__':
     uvicorn.run(
         'main:app',
