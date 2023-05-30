@@ -16,7 +16,7 @@ class FilmLikesDislikesResponse(BaseModel):
 
 
 class LikeChangeModel(BaseModel):
-    film_id: str
+    film_id: uuid.UUID
     like: Optional[int]
 
 

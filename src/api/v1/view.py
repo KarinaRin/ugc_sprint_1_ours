@@ -24,7 +24,7 @@ class UserTimestamp(BaseModel):
 )
 @check_permission(required_role=['admin', 'subscriber'])
 async def content(
-        film_id: str,
+        film_id: uuid.UUID,
         request: HTTPAuthorizationCredentials = Depends(bearer_token),
         ugc_service: Service = Depends(get_ugc_service),
 ) -> dict:

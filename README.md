@@ -4,6 +4,7 @@
 ```bash
 ./run.sh
 ```
+
 2. Заходим в свагер
 
 http://127.0.0.1:8001/ugc_service/api/openapi 
