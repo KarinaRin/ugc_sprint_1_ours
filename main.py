@@ -1,4 +1,9 @@
+import logging
+
+import logstash
 import uvicorn as uvicorn
+import sentry_sdk
+
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
@@ -6,6 +11,11 @@ from src.etl.kafka_clickhouse_etl import create_kafka_clickhouse_etl
 from src.api.v1 import view, likes, bookmark
 from src.core.config import settings
 from src.etl.kafka_redis_etl import create_connector
+
+sentry_sdk.init(
+    dsn=settings.sentry_dsn,
+    traces_sample_rate=1.0,
+)
 
 app = FastAPI(
     title=settings.project_name,
@@ -15,6 +25,11 @@ app = FastAPI(
     openapi_url='/ugc_service/api/openapi.json',
     default_response_class=ORJSONResponse,
 )
+
+app.logger = logging.getLogger(__name__)
+app.logger.setLevel(logging.INFO)
+# logstash
+app.logger.addHandler(logstash.LogstashHandler('localhost', 5044, version=1))
 
 app.include_router(
     view.router, prefix='/api/v1/view', tags=['View'])

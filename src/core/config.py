@@ -22,6 +22,7 @@ class Settings(BaseSettings):
     mongo_collection: str = 'UsersContent'
     clickhouse_host = '127.0.0.1'  # clickhouse-node1
     kafka_connector: str = 'http://127.0.0.1:8083/connectors'  # kafka-connect
+    sentry_dsn: str = "https://3b229851f5574ed7b69029b96d9846c8@o4505266900303872.ingest.sentry.io/4505266902925312"
 
 
 settings = Settings()

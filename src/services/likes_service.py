@@ -11,40 +11,40 @@ class LikesService(BaseServiceUGC):
     async def get_aggregation_likes_dislikes(self, pipeline):
         result = await super().get_aggregation(pipeline)
 
-        response = None
-        if result:
-            response = {
-                'film_id': result[0]['_id']['film_id'],
-                'likes': 0,
-                'dislikes': 0
-            }
-            for item in result:
-                if item['_id']['likes'] == 10:
-                    response['likes'] = item['count']
-                elif item['_id']['likes'] == 0:
-                    response['dislikes'] = item['count']
+        if not result:
+            return
+
+        response = {
+            'film_id': result[0]['_id']['film_id'],
+            'likes': 0,
+            'dislikes': 0
+        }
+        for item in result:
+            if item['_id']['likes'] == 10:
+                response['likes'] = item['count']
+            elif item['_id']['likes'] == 0:
+                response['dislikes'] = item['count']
         return response
 
     async def get_aggregation_average_rating(self, pipeline):
         result = await super().get_aggregation(pipeline)
-        response = None
-        if result:
-            response = {
-                'film_id': result[0]['_id']['film_id'],
-                'average_movie_rating': result[0]['average_movie_rating']
-            }
-        return response
+        if not result:
+            return
+        return {
+            'film_id': result[0]['_id']['film_id'],
+            'average_movie_rating': result[0]['average_movie_rating']
+        }
 
-    async def change_like_or_create(self, query, user_info):
+    async def change_like_or_create(self, query, user_content):
         present_data = await super().find_one_document(query)
         if present_data:
-            new_data = {'$set': {"likes": user_info['like']}}
+            new_data = {'$set': {"likes": user_content.like}}
             await super().update_one_document(present_data, new_data)
         else:
             document = {
-                "email": user_info['email'],
-                "film_id": user_info['film_id'],
-                'likes': user_info['like'],
+                "email": user_content.email,
+                "film_id": str(user_content.film_id),
+                'likes': user_content.like,
                 "review": {},
                 'bookmark': False
             }

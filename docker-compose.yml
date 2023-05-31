@@ -19,6 +19,7 @@ services:
     depends_on:
       - zookeeper
 
+
   clickhouse-node2:
 #    image: yandex/clickhouse-server:20.4
     image: altinity/clickhouse-server:21.6.1.6734-testing-arm
@@ -28,6 +29,7 @@ services:
       - ./data/node2:/etc/clickhouse-server
     depends_on:
       - zookeeper
+
 
   zookeeper_kafka:
 #    image: confluentinc/cp-zookeeper:7.4.0
@@ -160,6 +162,7 @@ services:
     ports:
       - "6379:6379"
 
+
 #  big_data:
 #    build:
 #      context: ./
@@ -171,8 +174,13 @@ services:
 #      - big_data_redis
 #    env_file:
 #      - ./.env
+#    logging:
+#      driver: gelf
+#      options:
+#        gelf-address: udp://127.0.0.1:5044
+#        tag: big_data
 
-## Router
+  ## Router
   router01:
     image: mongo:6.0.1
     container_name: router-01
@@ -307,6 +315,7 @@ services:
     ports:
       - 27126:27017
     restart: always
+
   shard02-c:
     image: mongo:6.0.1
     container_name: shard-02-node-c
@@ -318,6 +327,7 @@ services:
     ports:
       - 27127:27017
     restart: always
+
 
   ## Shards 03
   shard03-a:
@@ -334,6 +344,7 @@ services:
     links:
       - shard03-b
       - shard03-c
+
   shard03-b:
     image: mongo:6.0.1
     container_name: shard-03-node-b
@@ -345,6 +356,8 @@ services:
     ports:
       - 27129:27017
     restart: always
+
+
   shard03-c:
     image: mongo:6.0.1
     container_name: shard-03-node-c
@@ -356,3 +369,41 @@ services:
     ports:
       - 27130:27017
     restart: always
+
+
+  logstash:
+    image: logstash:7.17.9
+    environment:
+      # Так как сейчас вы хотите запустить logstash без Elasticsearch, необходимо отключить встроенный мониторинг, отправляющий данные в ES
+      XPACK_MONITORING_ENABLED: "false"
+      ES_HOST: "elasticsearch:9200"
+    ports:
+      - "5044:5044/udp"
+    volumes:
+      # Монтируем файл с конфигурацией logstash
+      - ./logstash/logstash.conf:/config/logstash.conf:ro
+    # Запускаем с указанием конфигурационного файла
+    command: logstash -f /config/logstash.conf
+    depends_on:
+      - elasticsearch
+
+
+  elasticsearch:
+    image: elasticsearch:7.17.9
+    environment:
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+      - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
+    expose:
+      - 9200
+
+  kibana:
+    container_name: kb-container
+    image: kibana:7.17.9
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5601:5601
+

@@ -1,12 +1,16 @@
+import uuid
 from http import HTTPStatus
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from src.api.v1.pipelines.likes_pipeline import LikesPipline
-from src.models.likes import (FilmAverageRatingResponse,
-                              FilmChangeLikeResponse,
-                              FilmLikesDislikesResponse, LikeChangeModel)
+from src.models.likes import (
+    FilmAverageRatingResponse,
+    FilmChangeLikeResponse,
+    FilmLikesDislikesResponse,
+    LikeChangeModel
+)
 from src.services.likes_service import get_likes_service
 from src.services.service import Service
 from src.utils.auth_check import check_permission
@@ -16,7 +20,7 @@ bearer_token = HTTPBearer()
 
 
 @router.get(
-    '/likes-dislikes-statistics',
+    '/{film_id}/count',
     response_model=FilmLikesDislikesResponse,
     summary='Получение лайков и дизлайков',
     description='Вывод количество лайков и дизлайков',
@@ -24,11 +28,11 @@ bearer_token = HTTPBearer()
 )
 @check_permission(required_role=['admin', 'subscriber'])
 async def likes_dislikes_statistics(
-        film_id: str,
+        film_id: uuid.UUID,
         request: HTTPAuthorizationCredentials = Depends(bearer_token),
         like_service: Service = Depends(get_likes_service),
 ):
-    pipeline = LikesPipline().likes_dislikes_pipeline(film_id)
+    pipeline = LikesPipline().likes_dislikes_pipeline(str(film_id))
     result = await like_service.get_aggregation_likes_dislikes(pipeline)
     if not result:
         raise HTTPException(
@@ -39,7 +43,7 @@ async def likes_dislikes_statistics(
 
 
 @router.get(
-    '/average-rating',
+    '/{film_id}/average-rating',
     response_model=FilmAverageRatingResponse,
     summary='Получение среднего значения рейтинга',
     description='Вывод среднего значения рейтинга',
@@ -47,11 +51,11 @@ async def likes_dislikes_statistics(
 )
 @check_permission(required_role=['admin', 'subscriber'])
 async def get_average_rating(
-        film_id: str,
+        film_id: uuid.UUID,
         request: HTTPAuthorizationCredentials = Depends(bearer_token),
         like_service: Service = Depends(get_likes_service),
 ):
-    pipeline = LikesPipline().average_rating_pipeline(film_id)
+    pipeline = LikesPipline().average_rating_pipeline(str(film_id))
     result = await like_service.get_aggregation_average_rating(pipeline)
     if not result:
         raise HTTPException(
@@ -67,7 +71,7 @@ async def get_average_rating(
 
 
 @router.post(
-    '/change-like',
+    '/update',
     response_model=FilmChangeLikeResponse,
     summary='',
     description='',
@@ -79,16 +83,13 @@ async def change_like(
         request: HTTPAuthorizationCredentials = Depends(bearer_token),
         like_service: Service = Depends(get_likes_service),
 ):
-    query = {"film_id": user_content.film_id,
-             "email": request['email']}
-
-    user_info = {}
-    user_info['email'] = request['email']
-    user_info['film_id'] = user_content.film_id
-    user_info['like'] = user_content.like
+    query = {
+        "film_id": str(user_content.film_id),
+        "email": request['email']
+    }
 
     result = await like_service.change_like_or_create(
         query,
-        user_info
+        user_content
     )
     return FilmChangeLikeResponse(**result)
