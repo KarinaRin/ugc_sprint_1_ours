@@ -28,3 +28,4 @@ docker login
 docker build -t alexblacknn/big_data:0.0.1 .
 docker push alexblacknn/big_data:0.0.1
 
+https://my-organization-o0.sentry.io/projects/python-fastapi/?project=4505266902925312

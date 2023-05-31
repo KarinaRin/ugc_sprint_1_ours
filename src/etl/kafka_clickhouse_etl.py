@@ -1,15 +1,17 @@
+import asyncio
+
 from asynch import connect
 from asynch.cursors import DictCursor
-import asyncio
 
 
 async def create_kafka_clickhouse_etl():
     conn = await connect(
-        host="clickhouse-node1",
+        host="localhost",
         port=9000,
     )
     async with conn.cursor(cursor=DictCursor) as cursor:
         await cursor.execute('create database if not exists test')
+        # broker:29092
         create_kafka_engine = """
         CREATE TABLE IF NOT EXISTS user_film_timestamp_queue (
             email String,

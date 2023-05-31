@@ -19,12 +19,12 @@ class UserTimestamp(BaseModel):
 @router.get(
     '/{film_id}',
     summary='Получение timestamp',
-    description='На каком timestamp остановился пользователь, при просмотре фильма',
+    description='На каком timestamp остановился пользователь, смотря фильм',
     response_description='Временная метка'
 )
 @check_permission(required_role=['admin', 'subscriber'])
 async def content(
-        film_id: str,
+        film_id: uuid.UUID,
         request: HTTPAuthorizationCredentials = Depends(bearer_token),
         ugc_service: Service = Depends(get_ugc_service),
 ) -> dict:
