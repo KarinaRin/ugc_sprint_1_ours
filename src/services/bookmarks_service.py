@@ -33,8 +33,7 @@ class BookmarksService(BaseServiceUGC):
         result = await super().get_aggregation(pipeline)
         if not result:
             return None
-
-        return [item['_id'] for item in result]
+        return result
 
 
 @lru_cache()

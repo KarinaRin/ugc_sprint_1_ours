@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from src.api.v1.pipelines.bookmarks_pipeline import BookmarksPipline
-from src.models.bookmark import BookmarkResponse, BookmarkResponseAll
+from src.models.base import BaseResponse
 from src.services.bookmarks_service import get_bookmark_service
 from src.services.service import Service
 from src.utils.auth_check import check_permission
@@ -16,7 +16,7 @@ bearer_token = HTTPBearer()
 
 @router.post(
     '/{film_id}',
-    response_model=BookmarkResponse,
+    response_model=BaseResponse,
     summary='Добавление фильма в закладки',
     description='Добавление фильма в закладки',
     response_description='Фильм добавлен в закладки'
@@ -35,12 +35,12 @@ async def add_bookmark(
             status_code=HTTPStatus.NOT_FOUND,
             detail='document not found'
         )
-    return BookmarkResponse(**result)
+    return BaseResponse(**result)
 
 
 @router.delete(
     '/{film_id}',
-    response_model=BookmarkResponse,
+    response_model=BaseResponse,
     summary='Удаление фильма из закладок',
     description='Удаление фильма из закладок',
     response_description='Фильм удален из закладок'
@@ -59,12 +59,12 @@ async def delete_bookmark(
             status_code=HTTPStatus.NOT_FOUND,
             detail='document not found'
         )
-    return BookmarkResponse(**result)
+    return BaseResponse(**result)
 
 
 @router.get(
     '',
-    response_model=list[BookmarkResponseAll],
+    response_model=list[BaseResponse],
     summary='Все закладки пользователя',
     description='Получение всех закладок пользователя по фильмам',
     response_description='Список фильмов'
@@ -81,4 +81,4 @@ async def get_user_bookmarks(
             status_code=HTTPStatus.NOT_FOUND,
             detail='document not found'
         )
-    return [BookmarkResponseAll(**item) for item in result]
+    return [BaseResponse(**item) for item in result]
