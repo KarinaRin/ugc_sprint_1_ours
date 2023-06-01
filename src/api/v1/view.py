@@ -29,10 +29,10 @@ async def content(
         ugc_service: Service = Depends(get_ugc_service),
 ) -> dict:
     try:
-        return await ugc_service.get_timestamp(request['email'], film_id)
+        return await ugc_service.get_timestamp(request['email'], str(film_id))
     except Exception:
         return {'error': f'No available data for user with email '
-                         f'{request["email"]} with film id = {film_id}'
+                         f'{request["email"]} with film id = {str(film_id)}'
                 }
 
 

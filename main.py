@@ -8,7 +8,8 @@ from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
 from src.etl.kafka_clickhouse_etl import create_kafka_clickhouse_etl
-from src.api.v1 import view, likes, reviews
+from src.api.v1 import view, likes, bookmark, reviews
+
 from src.core.config import settings
 from src.etl.kafka_redis_etl import create_connector
 
@@ -37,6 +38,8 @@ app.include_router(
     likes.router, prefix='/api/v1/likes', tags=['Likes'])
 app.include_router(
     reviews.router, prefix='/api/v1/review', tags=['Review'])
+app.include_router(
+    bookmark.router, prefix='/api/v1/bookmarks', tags=['Bookmarks'])
 
 
 @app.on_event('startup')
