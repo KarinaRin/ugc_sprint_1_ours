@@ -16,7 +16,7 @@ bearer_token = HTTPBearer()
 
 
 @router.post(
-    '/{film_id}/post_review',
+    '/{film_id}',
     response_model=ReviewResponse,
     summary='Добавление или обновление рецензии к фильму',
     description='Добавление или обновление рецензии к фильму',
@@ -36,7 +36,7 @@ async def add_review(
 
 
 @router.get(
-    '/{film_id}/list',
+    '/{film_id}/reviews',
     response_model=list[ReviewResponse],
     summary='Список рецензий на фильм',
     description='Список рецензий на открытый фильм',
@@ -57,7 +57,7 @@ async def get_film_reviews(
 
 
 @router.get(
-    '/list',
+    '/',
     response_model=list[ReviewResponse],
     summary='Список рецензий от пользователя',
     description='Список рецензий от пользователя',
@@ -65,17 +65,17 @@ async def get_film_reviews(
 )
 @check_permission(required_role=['admin', 'subscriber'])
 async def get_reviews(
-        user_id: Optional[str] = Body(),
+        user_email: Optional[str] = Body(),
         request: HTTPAuthorizationCredentials = Depends(bearer_token),
         review_service: Service = Depends(get_reviews_service),
 ):
-    if not user_id:
+    if not user_email:
         user_id = request['email']
         msg = 'Вы пока не публиковали рецензий'
     else:
-        msg = f'Пользователь {user_id} рецензий не публиковал'
+        msg = f'Пользователь {user_email} рецензий не публиковал'
 
-    result = await review_service.get_reviews_from_user(user_id)
+    result = await review_service.get_reviews_from_user(user_email)
     if not result:
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND,
@@ -100,15 +100,15 @@ class Choice(str, Enum):
 async def get_reviews(
         film_id: uuid.UUID,
         type_: Choice,
-        author_id: Optional[str] = Body(),
+        author_email: Optional[str] = Body(),
         request: HTTPAuthorizationCredentials = Depends(bearer_token),
         review_service: Service = Depends(get_reviews_service),
 ):
-    if author_id == request['email']:
+    if author_email == request['email']:
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,
             detail='Нельзя ставить оценку самому себе'
         )
     result = await review_service.post_like_dislike(
-        str(film_id), author_id, request['email'], type_)
+        str(film_id), author_email, request['email'], type_)
     return ReviewResponse(**result)

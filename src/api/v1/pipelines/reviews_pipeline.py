@@ -7,8 +7,7 @@ def pipeline_list_reviews(field_name, field_value):
 
 
 def pipeline_exist_review(film_id, user_id):
-    """
-    True - если пользователь ПИСАЛ рецензию к фильму
+    """...если пользователь ПИСАЛ рецензию к фильму
     """
     query = {"$and": [
         {"review": {"$ne": {}, "$type": "object"}},
@@ -19,9 +18,6 @@ def pipeline_exist_review(film_id, user_id):
 
 
 def pipeline_count_review(film_id, author_id, field_name, user_id):
-    """
-    True - если пользователь ПИСАЛ рецензию к фильму
-    """
     field_name = 'review.' + field_name
     query = {"$and": [
         {"review": {"$ne": {}, "$type": "object"}},

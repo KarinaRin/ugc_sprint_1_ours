@@ -13,10 +13,10 @@ from ..db.mongo import get_db_storage
 
 
 class ReviewsService(BaseServiceUGC):
-    async def change_review_or_create(self, film_id, user_id, text):
-        pipeline = pipeline_exist_review(film_id, user_id)
+    async def change_review_or_create(self, film_id, user_email, text):
+        pipeline = pipeline_exist_review(film_id, user_email)
         present_data = await super().find_one_document(pipeline)
-        if present_data:  # если есть рецензия
+        if present_data:
             new_data = {
                 '$set': {
                     'review.text': text,
@@ -25,23 +25,28 @@ class ReviewsService(BaseServiceUGC):
                 }}
             await super().update_one_document(present_data, new_data)
         else:
-            document = {
-                "email": user_id,
-                "film_id": film_id,
-                'likes': None,
-                "review": {
-                    'text': text,
-                    'created': int(time.mktime(date.today().timetuple())),
-                    'likes': [],
-                    'dislikes': []
-                },
-                'bookmark': False
-            }
-            await super().insert_one_document(document)
+            await self.create_document(film_id, user_email, text)
         return await super().find_one_document(pipeline)
 
-    async def get_reviews_from_user(self, user_id):
-        query = pipeline_list_reviews(field_name="email", field_value=user_id)
+    async def create_document(self, film_id, user_email, text):
+        document = {
+            "email": user_email,
+            "film_id": film_id,
+            'likes': None,
+            "review": {
+                'text': text,
+                'created': int(time.mktime(date.today().timetuple())),
+                'likes': [],
+                'dislikes': []
+            },
+            'bookmark': False
+        }
+        await super().insert_one_document(document)
+
+    async def get_reviews_from_user(self, user_email):
+        query = pipeline_list_reviews(
+            field_name="email", field_value=user_email
+        )
         result = await super().find_list_documents(query)
         if not result:
             return None
@@ -54,37 +59,40 @@ class ReviewsService(BaseServiceUGC):
             return None
         return result
 
-    async def post_like_dislike(self, film_id, author_id, user_id, type):
-        pipeline = pipeline_exist_review(film_id, author_id)
+    async def post_like_dislike(
+            self, film_id, author_email, user_email, type_
+    ):
+        pipeline = pipeline_exist_review(film_id, author_email)
         present_data = await super().find_one_document(pipeline)
         if not present_data:
             return None
-        update = {}
-        if type == 'like':
-            query = pipeline_count_review(
-                film_id, author_id, 'likes', user_id
+
+        if type_ == 'like':
+            await self.like_dislike(
+                film_id, author_email, user_email, 'likes', present_data
             )
-            is_present = await super().count_objects(query)
-            if is_present > 0:
-                # Если email присутствует в массиве, удаляем его
-                update['$pull'] = {'review.likes': user_id}
-            else:
-                # Если email отсутствует в массиве, добавляем его
-                update['$addToSet'] = {'review.likes': user_id}
-            await super().update_one_document(present_data, update)
         else:
-            query = pipeline_count_review(
-                film_id, author_id, 'dislikes', user_id
+            await self.like_dislike(
+                film_id, author_email, user_email, 'dislikes', present_data
             )
-            is_present = await super().count_objects(query)
-            if is_present > 0:
-                # Если email присутствует в массиве, удаляем его
-                update['$pull'] = {'review.dislikes': user_id}
-            else:
-                # Если email отсутствует в массиве, добавляем его
-                update['$addToSet'] = {'review.dislikes': user_id}
-            await super().update_one_document(present_data, update)
         return await super().find_one_document(pipeline)
+
+    async def like_dislike(
+            self, film_id, author_email, user_email, type_field, present_data
+    ):
+        update = {}
+        field = f'review.' + type_field
+        query = pipeline_count_review(
+            film_id, author_email, type_field, user_email
+        )
+        is_present = await super().count_objects(query)
+        if is_present > 0:
+            # Если email присутствует в массиве, удаляем его
+            update['$pull'] = {field: user_email}
+        else:
+            # Если email отсутствует в массиве, добавляем его
+            update['$addToSet'] = {field: user_email}
+        await super().update_one_document(present_data, update)
 
 
 @lru_cache()
