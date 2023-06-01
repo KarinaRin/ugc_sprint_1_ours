@@ -21,6 +21,10 @@ class BaseServiceUGC:
         document = await self.db_storage.get_one_object_from_db(query)
         return document
 
+    async def find_list_documents(self, query: dict):
+        document = await self.db_storage.get_objects_from_db(query)
+        return document
+
     async def update_one_document(self, present_data, new_data):
         await self.db_storage.update_object_in_db(
             present_data, new_data
@@ -28,3 +32,6 @@ class BaseServiceUGC:
 
     async def insert_one_document(self, document):
         await self.db_storage.put_object_to_db(document)
+
+    async def count_objects(self, query):
+        await self.db_storage.count_filtered_objects_in_db(query)

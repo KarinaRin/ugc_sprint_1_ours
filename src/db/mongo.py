@@ -18,8 +18,8 @@ class MongoDB(AbstractDocStorage):
     async def get_one_object_from_db(self, query):
         return await self.collection.find_one(query)
 
-    async def get_objects_from_db(self):
-        pass
+    async def get_objects_from_db(self, query):
+        return await self.collection.find(query)
 
     async def put_object_to_db(self, document: dict):
         await self.collection.insert_one(document)
@@ -29,6 +29,9 @@ class MongoDB(AbstractDocStorage):
 
     async def update_object_in_db(self, present_data, new_data):
         await self.collection.update_one(present_data, new_data)
+
+    async def count_filtered_objects_in_db(self, query):
+        await self.collection.count_documents(query)
 
 
 async def get_db_storage():
