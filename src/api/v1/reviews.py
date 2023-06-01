@@ -47,7 +47,7 @@ async def get_film_reviews(
         film_id: uuid.UUID,
         review_service: Service = Depends(get_reviews_service),
 ):
-    result = await review_service.get_reviews_to_film(film_id)
+    result = await review_service.get_reviews_to_film(str(film_id))
     if not result:
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND,
@@ -110,5 +110,5 @@ async def get_reviews(
             detail='Нельзя ставить оценку самому себе'
         )
     result = await review_service.post_like_dislike(
-        film_id, author_id, request['email'], type_)
+        str(film_id), author_id, request['email'], type_)
     return ReviewResponse(**result)
