@@ -5,9 +5,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from src.api.v1.pipelines.likes_pipeline import LikesPipline
+from src.models.base import BaseResponse
 from src.models.likes import (
     FilmAverageRatingResponse,
-    FilmChangeLikeResponse,
     FilmLikesDislikesResponse,
     LikeChangeModel
 )
@@ -72,7 +72,7 @@ async def get_average_rating(
 
 @router.post(
     '/update',
-    response_model=FilmChangeLikeResponse,
+    response_model=BaseResponse,
     summary='',
     description='',
     response_description=''
@@ -92,4 +92,4 @@ async def change_like(
         query,
         user_content
     )
-    return FilmChangeLikeResponse(**result)
+    return BaseResponse(**result)
