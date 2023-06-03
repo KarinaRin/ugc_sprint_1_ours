@@ -1,0 +1,99 @@
+Current Mongosh Log ID:	6478e62db50ef3856d89a7f4
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6478e71bacd74671b3c43b0b
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6478e7fc6983970730ffa8ca
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6478e916a47d698d0cbef975
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6478ec61ce5533d0591dcd29
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6478ed2ef52b2d31b0ec59c7
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6478ee221d55e3fbff7c695a
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6478eefb57c88eaad12faa8c
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6478fea0b2edc6754af97c2d
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6478ff85dd24d08490ce39dc
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6479cef6ab45f9476e04eda6
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6479d30e95b8e4fa6c526a65
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6479d438e40cb4feda0f3347
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6479eba984db02d8afd60abe
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6479ed4c863f8b7302abad81
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6479ee654a0c10117194df68
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647a1bb58202b0aa2883cbaf
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647a24dd093e94cd7a235a84
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647a51961ecb413fd2c35aae
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647a527de21dc9c95febd71e
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647a5f222de563d4a30bf2ae
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647ad0a3ddbe2c9795a4329e
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647ad2840ce7d9181d0f78d3
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647ad397795ee849c05512d0
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647ad7f6b4e66394bd5851cf
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647ade454fa4a6899e16b73a
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647adf44507d995b49f82608
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647ae446539c464dc679429e
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647af9fa74d24cd3935077f4
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647afb39803aeae1e91e10c3
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647afc55bcc4c1ebb65672b5
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647b0be10215b9d5d815d18d
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647b12cbd46ddae4ee7d4683
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017

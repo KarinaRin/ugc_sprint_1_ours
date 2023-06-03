@@ -1,0 +1,53 @@
+Current Mongosh Log ID:	6471ad050bee71896b330f48
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	64723df1b795bd32fa464721
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6472497a3a1a8650f9f098dc
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6472f8e7a216e85710416cc0
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647484defaaed42363737ed0
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6474d4425316bb8264fa0456
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Some services (broker, clickhouse-node1, clickhouse-node2, configsvr01, configsvr02, configsvr03, control-center, elasticsearch, kafka-connect, kibana, logstash, rest-proxy, router01, router02, schema-registry, shard01-a, shard01-b, shard01-c, shard02-a, shard02-b, shard02-c, shard03-a, shard03-b, shard03-c, zookeeper, zookeeper_kafka) use the 'deploy' key, which will be ignored. Compose does not support 'deploy' configuration - use `docker stack deploy` to deploy to a swarm.
+Current Mongosh Log ID:	6474dced0c18ba06c415a0db
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Some services (broker, clickhouse-node1, clickhouse-node2, configsvr01, configsvr02, configsvr03, control-center, elasticsearch, kafka-connect, kibana, logstash, rest-proxy, router01, router02, schema-registry, shard01-a, shard01-b, shard01-c, shard02-a, shard02-b, shard02-c, shard03-a, shard03-b, shard03-c, zookeeper, zookeeper_kafka) use the 'deploy' key, which will be ignored. Compose does not support 'deploy' configuration - use `docker stack deploy` to deploy to a swarm.
+Current Mongosh Log ID:	6474de05e8e2631f865d3ca4
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6474e029bbb91becf25fc86c
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6474e1b040f2699f7138aca6
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6474e4b4be1e4b15a5856383
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6474ed4150c2eab81252a3da
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6474ff79fa68274dd31954ea
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647504926c25e706393bfd26
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647506a468cb2c408d6d3271
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	647507b0f77779c921c7efcf
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+Current Mongosh Log ID:	6475099f352dae2df1b72dbe
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
