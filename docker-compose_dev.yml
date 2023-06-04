@@ -5,6 +5,11 @@ services:
     image: zookeeper:3.5
     container_name: zookeeper
     hostname: zookeeper
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: zookeeper
 
   clickhouse-node1:
     image: yandex/clickhouse-server:20.4
@@ -18,6 +23,11 @@ services:
       - ./data/node1:/etc/clickhouse-server
     depends_on:
       - zookeeper
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: clickhouse-node1
 
 
   clickhouse-node2:
@@ -29,6 +39,11 @@ services:
       - ./data/node2:/etc/clickhouse-server
     depends_on:
       - zookeeper
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: clickhouse-node2
 
 
   zookeeper_kafka:
@@ -41,6 +56,11 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: zookeeper_kafka
 
   kafka-connect:
     hostname: kafka-connect
@@ -69,9 +89,13 @@ services:
       CONNECT_REST_ADVERTISED_HOST_NAME : "kafka-connect"
       CONNECT_LOG4J_ROOT_LOGLEVEL: INFO
       CONNECT_PLUGIN_PATH: /usr/share/java,/etc/kafka-connect/jars
-
     volumes:
       - ./jars:/etc/kafka-connect/jars
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: kafka-connect
 
   broker:
     image: confluentinc/cp-server:7.4.0
@@ -102,6 +126,11 @@ services:
       CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
       CONFLUENT_METRICS_ENABLE: 'true'
       CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: broker
 
   schema-registry:
     image: confluentinc/cp-schema-registry:7.4.0
@@ -116,6 +145,11 @@ services:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'broker:29092'
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: schema-registry
 
 
   control-center:
@@ -140,6 +174,11 @@ services:
       CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
       CONFLUENT_METRICS_TOPIC_REPLICATION: 1
       PORT: 9021
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: control-center
 
   rest-proxy:
     image: confluentinc/cp-kafka-rest:7.4.0
@@ -156,29 +195,39 @@ services:
       KAFKA_REST_BOOTSTRAP_SERVERS: 'broker:29092'
       KAFKA_REST_LISTENERS: "http://0.0.0.0:8082"
       KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: rest-proxy
 
   big_data_redis:
     image: redis
     ports:
       - "6379:6379"
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: big_data_redis
 
 
-  big_data:
-    build:
-      context: ./
-    restart: unless-stopped
-    ports:
-      - 8001:8001
-    depends_on:
-      - broker
-      - big_data_redis
-    env_file:
-      - ./.env
+#  big_data:
+#    build:
+#      context: ./
+#    restart: unless-stopped
+#    ports:
+#      - 8001:8001
+#    depends_on:
+#      - broker
+#      - big_data_redis
+#    env_file:
+#      - ./.env
 #    logging:
 #      driver: gelf
 #      options:
 #        gelf-address: udp://127.0.0.1:5044
-#        tag: big_data
+#        tag: ugc_app
 
   ## Router
   router01:
@@ -192,6 +241,12 @@ services:
       - ./scripts:/scripts
       - ./mongo/mongodb_cluster_router01_db:/data/db
       - ./mongo/mongodb_cluster_router01_config:/data/configdb
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: router-01
+
   router02:
     image: mongo:6.0.1
     container_name: router-02
@@ -205,8 +260,13 @@ services:
     restart: always
     links:
       - router01
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: router-02
 
-## Config Servers
+  ## Config Servers
   configsvr01:
     image: mongo:6.0.1
     container_name: mongo-config-01
@@ -222,6 +282,12 @@ services:
       - shard01-a
       - shard02-a
       - shard03-a
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: mongo-config-01
+
   configsvr02:
     image: mongo:6.0.1
     container_name: mongo-config-02
@@ -235,6 +301,12 @@ services:
     restart: always
     links:
       - configsvr01
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: mongo-config-02
+
   configsvr03:
     image: mongo:6.0.1
     container_name: mongo-config-03
@@ -248,8 +320,13 @@ services:
     restart: always
     links:
       - configsvr02
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: mongo-config-03
 
-## Shards
+  ## Shards
   ## Shards 01
 
   shard01-a:
@@ -266,6 +343,12 @@ services:
     links:
       - shard01-b
       - shard01-c
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: shard-01-node-a
+
   shard01-b:
     image: mongo:6.0.1
     container_name: shard-01-node-b
@@ -277,6 +360,12 @@ services:
     ports:
       - 27123:27017
     restart: always
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: shard-01-node-b
+
   shard01-c:
     image: mongo:6.0.1
     container_name: shard-01-node-c
@@ -288,6 +377,11 @@ services:
     ports:
       - 27124:27017
     restart: always
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: shard-01-node-c
 
   ## Shards 02
   shard02-a:
@@ -304,6 +398,12 @@ services:
     links:
       - shard02-b
       - shard02-c
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: shard-02-node-a
+
   shard02-b:
     image: mongo:6.0.1
     container_name: shard-02-node-b
@@ -315,6 +415,11 @@ services:
     ports:
       - 27126:27017
     restart: always
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: shard-02-node-b
 
   shard02-c:
     image: mongo:6.0.1
@@ -327,6 +432,11 @@ services:
     ports:
       - 27127:27017
     restart: always
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: shard-02-node-c
 
 
   ## Shards 03
@@ -344,6 +454,11 @@ services:
     links:
       - shard03-b
       - shard03-c
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: shard-03-node-a
 
   shard03-b:
     image: mongo:6.0.1
@@ -356,6 +471,11 @@ services:
     ports:
       - 27129:27017
     restart: always
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: shard-03-node-b
 
 
   shard03-c:
@@ -369,6 +489,11 @@ services:
     ports:
       - 27130:27017
     restart: always
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:5044
+        tag: shard-03-node-c
 
 
   logstash:

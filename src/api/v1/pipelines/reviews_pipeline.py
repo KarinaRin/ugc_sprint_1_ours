@@ -3,7 +3,7 @@ def pipeline_exist_doc(film_id, user_email):
 
 
 def pipeline_list_reviews(field_name, field_value):
-    query = {"$and": [
+    query = {'$and": [
         {"review": {"$ne": {}, "$type": "object"}},
         {field_name: field_value}
     ]}

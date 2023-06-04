@@ -19,7 +19,7 @@ class Service:
 
     async def add_timestamp(self, email: str, user_content) -> dict:
         key = get_email_film_id(email, user_content.film_id)
-        user_generated_content = f"{email}, {user_content.film_id}, {get_current_datetime()}, {user_content.timestamp}"
+        user_generated_content = f'{email}, {user_content.film_id}, {get_current_datetime()}, {user_content.timestamp}'
         await self.kafka_producer.send(
             'user_film_timestamp', user_generated_content, key
         )

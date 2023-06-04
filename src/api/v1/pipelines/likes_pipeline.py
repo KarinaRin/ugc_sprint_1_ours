@@ -1,5 +1,5 @@
 class LikesPipline:
-    """Provider of mongo pipline"""
+    ''"Provider of mongo pipline"""
 
     @staticmethod
     def likes_dislikes_pipeline(film_id):

@@ -38,14 +38,14 @@ class LikesService(BaseServiceUGC):
     async def change_like_or_create(self, query, user_content):
         present_data = await super().find_one_document(query)
         if present_data:
-            new_data = {'$set': {"likes": user_content.like}}
+            new_data = {'$set': {'likes': user_content.like}}
             await super().update_one_document(present_data, new_data)
         else:
             document = {
-                "email": user_content.email,
-                "film_id": str(user_content.film_id),
+                'email': user_content.email,
+                'film_id': str(user_content.film_id),
                 'likes': user_content.like,
-                "review": {},
+                'review': {},
                 'bookmark': False
             }
             await super().insert_one_document(document)
