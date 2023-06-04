@@ -39,6 +39,7 @@ async def likes_dislikes_statistics(
             status_code=HTTPStatus.NOT_FOUND,
             detail='document not found'
         )
+
     return FilmLikesDislikesResponse(**result)
 
 
