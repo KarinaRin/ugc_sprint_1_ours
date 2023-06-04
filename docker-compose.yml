@@ -7,8 +7,8 @@ services:
     hostname: zookeeper
 
   clickhouse-node1:
-#    image: yandex/clickhouse-server:20.4
-    image: altinity/clickhouse-server:21.6.1.6734-testing-arm
+    image: yandex/clickhouse-server:20.4
+#    image: altinity/clickhouse-server:21.6.1.6734-testing-arm
     container_name: clickhouse-node1
     hostname: clickhouse-node1
     ports:
@@ -21,8 +21,8 @@ services:
 
 
   clickhouse-node2:
-#    image: yandex/clickhouse-server:20.4
-    image: altinity/clickhouse-server:21.6.1.6734-testing-arm
+    image: yandex/clickhouse-server:20.4
+#    image: altinity/clickhouse-server:21.6.1.6734-testing-arm
     container_name: clickhouse-node2
     hostname: clickhouse-node2
     volumes:
@@ -32,8 +32,8 @@ services:
 
 
   zookeeper_kafka:
-#    image: confluentinc/cp-zookeeper:7.4.0
-    image: confluentinc/cp-zookeeper:7.4.0.arm64
+    image: confluentinc/cp-zookeeper:7.4.0
+#    image: confluentinc/cp-zookeeper:7.4.0.arm64
     hostname: zookeeper_kafka
     container_name: zookeeper_kafka
     ports:
@@ -44,8 +44,8 @@ services:
 
   kafka-connect:
     hostname: kafka-connect
-#    image: confluentinc/cp-kafka-connect:7.4.0
-    image: confluentinc/cp-kafka-connect:7.4.0.arm64
+    image: confluentinc/cp-kafka-connect:7.4.0
+#    image: confluentinc/cp-kafka-connect:7.4.0.arm64
     container_name: kafka-connect
     depends_on:
       - schema-registry
@@ -74,8 +74,8 @@ services:
       - ./jars:/etc/kafka-connect/jars
 
   broker:
-#    image: confluentinc/cp-server:7.4.0
-    image: confluentinc/cp-server:7.4.0.arm64
+    image: confluentinc/cp-server:7.4.0
+#    image: confluentinc/cp-server:7.4.0.arm64
     hostname: broker
     container_name: broker
     depends_on:
@@ -104,8 +104,8 @@ services:
       CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
 
   schema-registry:
-#    image: confluentinc/cp-schema-registry:7.4.0
-    image: confluentinc/cp-schema-registry:7.4.0.arm64
+    image: confluentinc/cp-schema-registry:7.4.0
+#    image: confluentinc/cp-schema-registry:7.4.0.arm64
     hostname: schema-registry
     container_name: schema-registry
     depends_on:
@@ -119,8 +119,8 @@ services:
 
 
   control-center:
-#    image: confluentinc/cp-enterprise-control-center:7.4.0
-    image: confluentinc/cp-enterprise-control-center:7.4.0.arm64
+    image: confluentinc/cp-enterprise-control-center:7.4.0
+#    image: confluentinc/cp-enterprise-control-center:7.4.0.arm64
     hostname: control-center
     container_name: control-center
     depends_on:
@@ -142,8 +142,8 @@ services:
       PORT: 9021
 
   rest-proxy:
-#    image: confluentinc/cp-kafka-rest:7.4.0
-    image: confluentinc/cp-kafka-rest:7.4.0.arm64
+    image: confluentinc/cp-kafka-rest:7.4.0
+#    image: confluentinc/cp-kafka-rest:7.4.0.arm64
     ports:
       - 8082:8082
     depends_on:
