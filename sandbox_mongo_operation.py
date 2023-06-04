@@ -9,6 +9,7 @@ db = client.UserGeneratedContent
 posts = db.UsersContent
 print('11111111111111111111', posts.index_information())
 
+# posts.delete_many({})
 
 for doc in posts.find():
     pprint.pprint(doc)
