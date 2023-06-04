@@ -38,7 +38,7 @@ async def likes_dislikes_statistics(
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND,
             detail='document not found'
-        )
+        )4e346b42-0531-49a4-90a9-936135129fb3
     return FilmLikesDislikesResponse(**result)
 
 
@@ -59,7 +59,7 @@ async def get_average_rating(
     result = await like_service.get_aggregation_average_rating(pipeline)
     if not result:
         raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND,
+            status_code=HTTPStatus.NOT_FOUND,4e346b42-0531-49a4-90a9-936135129fb3
             detail='document not found'
         )
     if result['average_movie_rating'] is None:
