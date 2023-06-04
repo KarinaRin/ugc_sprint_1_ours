@@ -87,5 +87,10 @@ async def change_like(
         "film_id": str(user_content.film_id),
         "email": request['email']
     }
-    result = await like_service.change_like_or_create(query)
+
+    user_content.email = request['email']
+    result = await like_service.change_like_or_create(
+        query,
+        user_content
+    )
     return BaseResponse(**result)
