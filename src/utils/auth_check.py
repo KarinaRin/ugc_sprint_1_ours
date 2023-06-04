@@ -14,7 +14,7 @@ def check_permission(required_role: list):
             token = kwargs['request'].credentials
             try:
                 decoded = jwt.decode(
-                    token, settings.token_secret_key, algorithms="HS256"
+                    token, settings.token_secret_key, algorithms='HS256'
                 )
             except ExpiredSignatureError as exp:
                 return exp

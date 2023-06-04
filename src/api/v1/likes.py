@@ -84,8 +84,8 @@ async def change_like(
         like_service: Service = Depends(get_likes_service),
 ):
     query = {
-        "film_id": str(user_content.film_id),
-        "email": request['email']
+        'film_id': str(user_content.film_id),
+        'email': request['email']
     }
 
     user_content.email = request['email']

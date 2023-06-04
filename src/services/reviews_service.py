@@ -40,10 +40,10 @@ class ReviewsService(BaseServiceUGC):
 
     async def create_document(self, film_id, user_email, text):
         document = {
-            "email": user_email,
-            "film_id": film_id,
+            'email': user_email,
+            'film_id': film_id,
             'likes': None,
-            "review": {
+            'review': {
                 'text': text,
                 'created': int(time.mktime(date.today().timetuple())),
                 'likes': [],
@@ -55,7 +55,7 @@ class ReviewsService(BaseServiceUGC):
 
     async def get_reviews_from_user(self, user_email):
         query = pipeline_list_reviews(
-            field_name="email", field_value=user_email
+            field_name='email', field_value=user_email
         )
         result = await super().find_list_documents(query)
         if not result:
@@ -63,7 +63,7 @@ class ReviewsService(BaseServiceUGC):
         return result
 
     async def get_reviews_to_film(self, film_id):
-        query = pipeline_list_reviews("film_id", film_id)
+        query = pipeline_list_reviews('film_id', film_id)
         result = await super().find_list_documents(query)
         if not result:
             return None

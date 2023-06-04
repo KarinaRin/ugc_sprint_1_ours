@@ -13,7 +13,7 @@ class BookmarksService(BaseServiceUGC):
                  'email': user_email}
         present_data = await super().find_one_document(query)
         if present_data:
-            new_data = {'$set': {"bookmark": bookmark_status}}
+            new_data = {'$set': {'bookmark': bookmark_status}}
             await super().update_one_document(present_data, new_data)
         else:
             await self.create_document(film_id, user_email, bookmark_status)
@@ -21,10 +21,10 @@ class BookmarksService(BaseServiceUGC):
 
     async def create_document(self, film_id, user_email, bookmark_status):
         document = {
-            "email": user_email,
-            "film_id": str(film_id),
+            'email': user_email,
+            'film_id': str(film_id),
             'likes': None,
-            "review": {},
+            'review': {},
             'bookmark': bookmark_status
         }
         await super().insert_one_document(document)

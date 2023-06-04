@@ -7,14 +7,14 @@ from src.core.config import settings
 
 # TODO fix!
 payload = {
-    "name": "RedisSinkConnector1",
-    "config": {
-        "connector.class": "com.github.jcustenborder.kafka.connect.redis.RedisSinkConnector",
-        "tasks.max": "1",
-        "topics": "user_film_timestamp",
-        "redis.hosts": "big_data_redis:6379",
-        "key.converter": "org.apache.kafka.connect.storage.StringConverter",
-        "value.converter": "org.apache.kafka.connect.storage.StringConverter"
+    'name': 'RedisSinkConnector1',
+    'config': {
+        'connector.class': 'com.github.jcustenborder.kafka.connect.redis.RedisSinkConnector',
+        'tasks.max': '1',
+        'topics': 'user_film_timestamp',
+        'redis.hosts': 'big_data_redis:6379',
+        'key.converter': 'org.apache.kafka.connect.storage.StringConverter',
+        'value.converter': 'org.apache.kafka.connect.storage.StringConverter'
     }
 }
 
