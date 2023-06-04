@@ -160,7 +160,7 @@ services:
   big_data_redis:
     image: redis
     ports:
-      - "6378:6378"
+      - "6379:6379"
 
 
 #  big_data:
