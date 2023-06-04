@@ -82,11 +82,10 @@ class ReviewsService(BaseServiceUGC):
     ):
         update = {}
         field = f'review.' + type_field
-        query = pipeline_count_review(
-            film_id, author_email, type_field, user_email
-        )
-        is_present = await super().count_objects(query)
-        if is_present > 0:
+        pipeline = pipeline_exist_review(film_id, user_email)
+        present_data = await super().find_one_document(pipeline)
+        print(present_data)
+        if present_data:
             # Если email присутствует в массиве, удаляем его
             update['$pull'] = {field: user_email}
         else:

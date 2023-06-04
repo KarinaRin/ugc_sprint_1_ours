@@ -93,7 +93,7 @@ class Choice(str, Enum):
 async def get_reviews(
         film_id: uuid.UUID,
         type_: Choice,
-        author_email: Optional[str] = Body(),
+        author_email: str,
         request: HTTPAuthorizationCredentials = Depends(bearer_token),
         review_service: Service = Depends(get_reviews_service),
 ):

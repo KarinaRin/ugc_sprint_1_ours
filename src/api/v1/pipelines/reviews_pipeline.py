@@ -16,11 +16,7 @@ def pipeline_exist_review(film_id, user_id):
 
 
 def pipeline_count_review(film_id, author_id, field_name, user_id):
-    field_name = 'review.' + field_name
-    query = {"$and": [
-        {"review": {"$ne": {}, "$type": "object"}},
-        {'film_id': film_id},
-        {'email': author_id},
-        {field_name: {'$in': [user_id]}}
-    ]}
-    return query
+    return {
+        "film_id": film_id,
+        "email": author_id
+    }

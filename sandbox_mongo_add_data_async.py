@@ -35,6 +35,7 @@ for i, like in enumerate((0, 0, 0, 10, 10, 10)):
         "film_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         'likes': like,
         "review": {
+            ""
             "review_id": "205-325-056",
             "text": "this was awsome!",
             'date': datetime.utcnow(),
