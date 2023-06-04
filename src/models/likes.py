@@ -1,7 +1,7 @@
 import uuid
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Extra
 
 
 class FilmAverageRatingResponse(BaseModel):
@@ -18,6 +18,9 @@ class FilmLikesDislikesResponse(BaseModel):
 class LikeChangeModel(BaseModel):
     film_id: uuid.UUID
     like: Optional[int]
+
+    class Config:
+        extra = Extra.allow
 
 
 class FilmChangeLikeResponse(BaseModel):

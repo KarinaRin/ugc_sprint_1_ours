@@ -19,7 +19,7 @@ CONN_INFO = {
 }
 
 QUERY = """
-INSERT INTO views (user_id, movie_id, timestamp) VALUES (%s,%s, %s)
+INSERT INTO views (user_email, movie_id, timestamp) VALUES (%s,%s, %s)
 """
 
 user_ids = [str(uuid4()) for _ in range(USERS_COUNT)]
@@ -30,11 +30,11 @@ def init_db(cursor):
     cursor.execute(
         """
         CREATE TABLE IF NOT EXISTS views (
-        user_id VARCHAR(36) NOT NULL,
+        user_email VARCHAR(36) NOT NULL,
         movie_id VARCHAR(36) NOT NULL,
         timestamp INTEGER NOT NULL
         )
-        ORDER BY user_id, movie_id;
+        ORDER BY user_email, movie_id;
         """
     )
 

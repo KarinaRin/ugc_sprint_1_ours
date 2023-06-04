@@ -19,7 +19,7 @@ class MongoDB(AbstractDocStorage):
         return await self.collection.find_one(query)
 
     async def get_objects_from_db(self, query):
-        return await self.collection.find(query)
+        return [doc async for doc in self.collection.find(query)]
 
     async def put_object_to_db(self, document: dict):
         await self.collection.insert_one(document)

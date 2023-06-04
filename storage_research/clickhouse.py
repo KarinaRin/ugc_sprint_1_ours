@@ -4,7 +4,7 @@ from tqdm import tqdm
 from service.common import gen_views, INIT_RECORDS_CHUNK, INIT_RECORDS_ALL
 
 INSERT_QUERY = (
-    'INSERT INTO research.views (user_id, movie_id, timestamp) VALUES'
+    'INSERT INTO research.views (user_email, movie_id, timestamp) VALUES'
 )
 
 
@@ -14,11 +14,11 @@ def init_db(client):
     client.execute(
         '''
         CREATE TABLE IF NOT EXISTS research.views (
-            user_id UUID,
+            user_email UUID,
             movie_id UUID,
             timestamp UInt32
         ) ENGINE = MergeTree()
-        ORDER BY (user_id, movie_id);
+        ORDER BY (user_email, movie_id);
         '''
     )
 

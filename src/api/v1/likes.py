@@ -88,8 +88,5 @@ async def change_like(
         "email": request['email']
     }
 
-    result = await like_service.change_like_or_create(
-        query,
-        user_content
-    )
+    result = await like_service.change_like_or_create(query)
     return BaseResponse(**result)

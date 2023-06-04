@@ -2,7 +2,7 @@ from time import time
 
 
 def users_ids(cursor) -> list[str]:
-    cursor.execute("""SELECT DISTINCT user_id from views""")
+    cursor.execute("""SELECT DISTINCT user_email from views""")
     rows = cursor.fetchall()
     return [''.join(row) for row in rows]
 
