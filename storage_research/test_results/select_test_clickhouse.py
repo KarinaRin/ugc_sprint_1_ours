@@ -61,9 +61,9 @@ def select_time_rate():
 
 
 if __name__ == "__main__":
-    users_ids = list_ids('user_id')
+    users_ids = list_ids('user_email')
     movies_ids = list_ids('movie_id')
-    values = {"user_id": choice(users_ids), "movie_id": choice(movies_ids)}
+    values = {"user_email": choice(users_ids), "movie_id": choice(movies_ids)}
     select_time_rate()
 
 

@@ -5,8 +5,8 @@ from pydantic import BaseModel
 
 
 class Review(BaseModel):
-    text: str
-    created: int
+    text: Optional[str]
+    created: Optional[int]
     likes: list = []
     dislikes: list = []
 

@@ -12,7 +12,7 @@ posts.delete_many({})
 
 post = {
     "doc_id": "123-45-678",
-    "user_id": "121-12-516",
+    "user_email": "121-12-516",
     "film_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     'likes': 10,
     "review": {
@@ -37,7 +37,7 @@ loop.run_until_complete(do_insert())
 
 post = {
     "doc_id": "163-45-678",
-    "user_id": "141-12-516",
+    "user_email": "141-12-516",
     "film_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     'likes': None,
     "review": {
@@ -174,7 +174,7 @@ loop.run_until_complete(do_find())
 #
 # # Изменение лайка - любое значение. Удаление ставим None. Добавление любое значение вместо None
 # query = {"film_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-#          "user_id": "141-12-516"}
+#          "user_email": "141-12-516"}
 #
 #
 # async def change_likes(query):
@@ -189,7 +189,7 @@ loop.run_until_complete(do_find())
 #
 # async def check():
 #     query = {"film_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-#              "user_id": "141-12-516"}
+#              "user_email": "141-12-516"}
 #     present_data = await posts.find_one(query)
 #     print(present_data)
 #

@@ -81,7 +81,7 @@ if __name__ == "__main__":
         cursor = connection.cursor()
 
         values = {
-            "user_id": choice(users_ids(cursor)),
+            "user_email": choice(users_ids(cursor)),
             "movie_id": choice(movies_ids(cursor))
         }
         select_time_rate()

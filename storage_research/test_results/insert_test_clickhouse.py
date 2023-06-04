@@ -64,6 +64,6 @@ def insert_time_rate():
 
 
 if __name__ == "__main__":
-    users_ids = list_ids('user_id')
+    users_ids = list_ids('user_email')
     movies_ids = list_ids('movie_id')
     insert_time_rate()
