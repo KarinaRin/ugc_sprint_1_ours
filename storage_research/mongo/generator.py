@@ -11,8 +11,8 @@ from src.core.config import settings
 fake = Faker(locale="ru_RU")
 fake.seed_instance(0)
 
-USERS_COUNT = 100_000
-MOVIES_COUNT = 2_000
+USERS_COUNT = 10_000
+MOVIES_COUNT = 1_000
 
 CLEAN_DOC = {
     "film_id": '',
