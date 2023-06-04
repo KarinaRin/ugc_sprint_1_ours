@@ -77,11 +77,13 @@ class ReviewsService(BaseServiceUGC):
             )
         return await super().find_one_document(pipeline)
 
+    # TODO: надо починить
     async def like_dislike(
             self, film_id, author_email, user_email, type_field, present_data
     ):
         update = {}
         field = f'review.' + type_field
+        print('9999999999999', field)
         pipeline = pipeline_exist_review(film_id, user_email)
         present_data = await super().find_one_document(pipeline)
         print(present_data)
