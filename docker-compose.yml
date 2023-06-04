@@ -160,20 +160,20 @@ services:
   big_data_redis:
     image: redis
     ports:
-      - "6378:6378"
+      - "6379:6379"
 
 
-#  big_data:
-#    build:
-#      context: ./
-#    restart: unless-stopped
-#    ports:
-#      - 8001:8001
-#    depends_on:
-#      - broker
-#      - big_data_redis
-#    env_file:
-#      - ./.env
+  big_data:
+    build:
+      context: ./
+    restart: unless-stopped
+    ports:
+      - 8001:8001
+    depends_on:
+      - broker
+      - big_data_redis
+    env_file:
+      - ./.env
 #    logging:
 #      driver: gelf
 #      options:

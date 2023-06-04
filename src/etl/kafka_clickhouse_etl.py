@@ -6,7 +6,7 @@ from asynch.cursors import DictCursor
 
 async def create_kafka_clickhouse_etl():
     conn = await connect(
-        host="localhost",
+        host="clickhouse-node1",
         port=9000,
     )
     async with conn.cursor(cursor=DictCursor) as cursor:
