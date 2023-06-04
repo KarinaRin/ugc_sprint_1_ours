@@ -30,7 +30,7 @@ app = FastAPI(
 app.logger = logging.getLogger(__name__)
 app.logger.setLevel(logging.INFO)
 # logstash
-app.logger.addHandler(logstash.LogstashHandler('localhost', 5044, version=1))
+app.logger.addHandler(logstash.LogstashHandler('logstash', 5044, version=1))
 
 app.include_router(
     view.router, prefix='/api/v1/view', tags=['View'])

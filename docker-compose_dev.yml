@@ -11,9 +11,9 @@ services:
 #    image: altinity/clickhouse-server:21.6.1.6734-testing-arm
     container_name: clickhouse-node1
     hostname: clickhouse-node1
-    expose:
-      - 8123
-      - 9000
+    ports:
+      - "8123:8123"
+      - "9000:9000"
     volumes:
       - ./data/node1:/etc/clickhouse-server
     depends_on:
@@ -36,8 +36,8 @@ services:
 #    image: confluentinc/cp-zookeeper:7.4.0.arm64
     hostname: zookeeper_kafka
     container_name: zookeeper_kafka
-    expose:
-      - 2181
+    ports:
+      - "2181:2181"
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -50,8 +50,8 @@ services:
     depends_on:
       - schema-registry
       - big_data_redis
-    expose:
-      - 8083
+    ports:
+      - 8083:8083
     environment:
       CONNECT_BOOTSTRAP_SERVERS: broker:29092
       CONNECT_REST_PORT: 8083
@@ -80,9 +80,9 @@ services:
     container_name: broker
     depends_on:
       - zookeeper_kafka
-    expose:
-      - 9092
-      - 9101
+    ports:
+      - "9092:9092"
+      - "9101:9101"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper_kafka:2181'
@@ -110,8 +110,8 @@ services:
     container_name: schema-registry
     depends_on:
       - broker
-    expose:
-      - 8081
+    ports:
+      - "8081:8081"
     environment:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'broker:29092'
@@ -127,8 +127,8 @@ services:
       - broker
       - schema-registry
       - kafka-connect
-    expose:
-      - 9021
+    ports:
+      - "9021:9021"
     environment:
       CONTROL_CENTER_BOOTSTRAP_SERVERS: 'broker:29092'
       CONTROL_CENTER_CONNECT_CLUSTER: 'kafka-connect:8083'
@@ -144,8 +144,8 @@ services:
   rest-proxy:
     image: confluentinc/cp-kafka-rest:7.4.0
 #    image: confluentinc/cp-kafka-rest:7.4.0.arm64
-    expose:
-      - 8082
+    ports:
+      - 8082:8082
     depends_on:
       - broker
       - schema-registry
@@ -159,8 +159,8 @@ services:
 
   big_data_redis:
     image: redis
-    expose:
-      - 6379
+    ports:
+      - "6379:6379"
 
 
   big_data:
@@ -185,8 +185,8 @@ services:
     image: mongo:6.0.1
     container_name: router-01
     command: mongos --port 27017 --configdb rs-config-server/configsvr01:27017,configsvr02:27017,configsvr03:27017 --bind_ip_all
-    expose:
-      - 27017
+    ports:
+      - 27117:27017
     restart: always
     volumes:
       - ./scripts:/scripts
@@ -200,8 +200,8 @@ services:
       - ./scripts:/scripts
       - ./mongo/mongodb_cluster_router02_db:/data/db
       - ./mongo/mongodb_cluster_router02_config:/data/configdb
-    expose:
-      - 27017
+    ports:
+      - 27118:27017
     restart: always
     links:
       - router01
@@ -215,8 +215,8 @@ services:
       - ./scripts:/scripts
       - ./mongo/mongodb_cluster_configsvr01_db:/data/db
       - ./mongo/mongodb_cluster_configsvr01_config:/data/configdb
-    expose:
-      - 27017
+    ports:
+      - 27119:27017
     restart: always
     links:
       - shard01-a
@@ -230,8 +230,8 @@ services:
       - ./scripts:/scripts
       - ./mongo/mongodb_cluster_configsvr02_db:/data/db
       - ./mongo/mongodb_cluster_configsvr02_config:/data/configdb
-    expose:
-      - 27017
+    ports:
+      - 27120:27017
     restart: always
     links:
       - configsvr01
@@ -243,8 +243,8 @@ services:
       - ./scripts:/scripts
       - ./mongo/mongodb_cluster_configsvr03_db:/data/db
       - ./mongo/mongodb_cluster_configsvr03_config:/data/configdb
-    expose:
-      - 27017
+    ports:
+      - 27121:27017
     restart: always
     links:
       - configsvr02
@@ -260,8 +260,8 @@ services:
       - ./scripts:/scripts
       - ./mongo/mongodb_cluster_shard01_a_db:/data/db
       - ./mongo/mongodb_cluster_shard01_a_config:/data/configdb
-    expose:
-      - 27017
+    ports:
+      - 27122:27017
     restart: always
     links:
       - shard01-b
@@ -274,8 +274,8 @@ services:
       - ./scripts:/scripts
       - ./mongo/mongodb_cluster_shard01_b_db:/data/db
       - ./mongo/mongodb_cluster_shard01_b_config:/data/configdb
-    expose:
-      - 27017
+    ports:
+      - 27123:27017
     restart: always
   shard01-c:
     image: mongo:6.0.1
@@ -285,8 +285,8 @@ services:
       - ./scripts:/scripts
       - ./mongo/mongodb_cluster_shard01_c_db:/data/db
       - ./mongo/mongodb_cluster_shard01_c_config:/data/configdb
-    expose:
-      - 27017
+    ports:
+      - 27124:27017
     restart: always
 
   ## Shards 02
@@ -298,8 +298,8 @@ services:
       - ./scripts:/scripts
       - ./mongo/mongodb_cluster_shard02_a_db:/data/db
       - ./mongo/mongodb_cluster_shard02_a_config:/data/configdb
-    expose:
-      - 27017
+    ports:
+      - 27125:27017
     restart: always
     links:
       - shard02-b
@@ -312,8 +312,8 @@ services:
       - ./scripts:/scripts
       - ./mongo/mongodb_cluster_shard02_b_db:/data/db
       - ./mongo/mongodb_cluster_shard02_b_config:/data/configdb
-    expose:
-      - 27017
+    ports:
+      - 27126:27017
     restart: always
 
   shard02-c:
@@ -324,8 +324,8 @@ services:
       - ./scripts:/scripts
       - ./mongo/mongodb_cluster_shard02_c_db:/data/db
       - ./mongo/mongodb_cluster_shard02_c_config:/data/configdb
-    expose:
-      - 27017
+    ports:
+      - 27127:27017
     restart: always
 
 
@@ -338,8 +338,8 @@ services:
       - ./scripts:/scripts
       - ./mongo/mongodb_cluster_shard03_a_db:/data/db
       - ./mongo/mongodb_cluster_shard03_a_config:/data/configdb
-    expose:
-      - 27017
+    ports:
+      - 27128:27017
     restart: always
     links:
       - shard03-b
@@ -353,8 +353,8 @@ services:
       - ./scripts:/scripts
       - ./mongo/mongodb_cluster_shard03_b_db:/data/db
       - ./mongo/mongodb_cluster_shard03_b_config:/data/configdb
-    expose:
-      - 27017
+    ports:
+      - 27129:27017
     restart: always
 
 
@@ -366,8 +366,8 @@ services:
       - ./scripts:/scripts
       - ./mongo/mongodb_cluster_shard03_c_db:/data/db
       - ./mongo/mongodb_cluster_shard03_c_config:/data/configdb
-    expose:
-      - 27017
+    ports:
+      - 27130:27017
     restart: always
 
 
@@ -377,8 +377,8 @@ services:
       # Так как сейчас вы хотите запустить logstash без Elasticsearch, необходимо отключить встроенный мониторинг, отправляющий данные в ES
       XPACK_MONITORING_ENABLED: "false"
       ES_HOST: "elasticsearch:9200"
-    expose:
-      - 5044/udp
+    ports:
+      - "5044:5044/udp"
     volumes:
       # Монтируем файл с конфигурацией logstash
       - ./logstash/logstash.conf:/config/logstash.conf:ro
