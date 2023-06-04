@@ -30,7 +30,7 @@ async def add_review(
         review_service: Service = Depends(get_reviews_service),
 ):
     result = await review_service.change_review_or_create(
-        film_id=str(film_id), email=request['email'], text=text
+        film_id=str(film_id), user_email=request['email'], text=text
     )
     return ReviewResponse(**result)
 
@@ -42,9 +42,10 @@ async def add_review(
     description='Список рецензий на открытый фильм',
     response_description='Список рецензий'
 )
-@check_permission(required_role=['admin', 'subscriber'])
+# @check_permission(required_role=['admin', 'subscriber'])
 async def get_film_reviews(
         film_id: uuid.UUID,
+        # request: HTTPAuthorizationCredentials = Depends(bearer_token),
         review_service: Service = Depends(get_reviews_service),
 ):
     result = await review_service.get_reviews_to_film(str(film_id))
@@ -65,22 +66,14 @@ async def get_film_reviews(
 )
 @check_permission(required_role=['admin', 'subscriber'])
 async def get_reviews(
-        user_email: Optional[str] = Body(),
         request: HTTPAuthorizationCredentials = Depends(bearer_token),
         review_service: Service = Depends(get_reviews_service),
 ):
-    if not user_email:
-        user_id = request['email']
-        msg = 'Вы пока не публиковали рецензий'
-    else:
-        msg = f'Пользователь {user_email} рецензий не публиковал'
-
-    result = await review_service.get_reviews_from_user(user_email)
+    result = await review_service.get_reviews_from_user(request['email'])
     if not result:
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND,
-            detail=msg
-        )
+            detail='нет рецензий')
     return [ReviewResponse(**item) for item in result]
 
 
