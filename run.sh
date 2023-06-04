@@ -2,7 +2,7 @@
 docker-compose down
 docker rm -f $(docker ps -aq )
 sudo rm -r ./mongo/mongodb*
-docker-compose up -d
+docker-compose up -d --build
 
 echo "Create clickhouse claster"
 
