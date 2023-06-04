@@ -1,3 +1,7 @@
+def pipeline_exist_doc(film_id, user_email):
+    return {'film_id': film_id, 'email': user_email}
+
+
 def pipeline_list_reviews(field_name, field_value):
     query = {"$and": [
         {"review": {"$ne": {}, "$type": "object"}},
